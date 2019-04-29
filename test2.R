@@ -1,3 +1,3 @@
-dat = read.table("spam.csv", header = TRUE, sep="|")
+dat = read.table("./data/test/SensorTest", header = TRUE, sep="|")
 
 plot(dat)
