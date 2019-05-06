@@ -36,3 +36,8 @@ lines(sub_up_with$timestamp,sub_up_with$magnitude,type="l",col="green")
 #Test hist
 hist(sub_down_without$mag, xlab="Acc.Magn.",prob=T)
 hist(sub_down_with$mag, xlab="Acc.Magn.",prob=T)
+
+#fig Array
+par(mfcol=c(2,1))
+hist(sub_down_without$mag, breaks=c(0:50),ylim =c(0,0.500) , xlab="Acc.Magn.",prob=T)
+hist(sub_down_with$mag,breaks=c(0:50),ylim =c(0,0.5), xlab="Acc.Magn",prob=T)
