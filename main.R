@@ -1,0 +1,5 @@
+source("./0_loading/load.R")
+source("./1_cleaning/clean.R")
+source("./2_exploration/show_overview.R")
+source("./2_exploration/draw.R")
+source("./3_testing/test.R")
