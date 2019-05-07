@@ -21,3 +21,9 @@ sub_up_with$timestamp <- (sub_up_with$timestamp -mt)
 
 mt <- min(sub_down_with$timestamp)
 sub_down_with$timestamp <- (sub_down_with$timestamp -mt) 
+
+#Creating Subsets after Sensor Name:
+sub_up_without <- subset(sub_up_without, sub_up_without$sensorName=="LGE Linear Acceleration Sensor")
+sub_down_without <- subset(sub_down_without, sub_down_without$sensorName=="LGE Linear Acceleration Sensor")
+sub_up_with <- subset(sub_up_with, sub_up_with$sensorName=="LGE Linear Acceleration Sensor")
+sub_down_with <- subset(sub_down_with, sub_down_with$sensorName=="LGE Linear Acceleration Sensor")
