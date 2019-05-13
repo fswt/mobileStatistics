@@ -1,29 +1,27 @@
-preprocess <- function(){
-  stairsData <<- rename_labels() # Why do we have to return, so that a change happens? Variable is global, right? (also: #assign to parent)
-  #Attach Main Data Set, so that the variables can be addressed directly
-  attach(stairsData)
-  stairsData <<- calculate_magnitude() #assign to parent
-  subsets <- create_subsets()
+preprocess <- function(data){
+  data <- rename_labels(data) # Why do we have to return, so that a change happens? Variable is global, right? (also: #assign to parent)
+  data <- calculate_magnitude(data) #assign to parent
+  subsets <- create_subsets(data)
   subsets <- normalize_timestamps(subsets$sub_up_without, subsets$sub_down_without, subsets$sub_up_with, subsets$sub_down_with)
   create_sensor_name_subsets(subsets$sub_up_without, subsets$sub_down_without, subsets$sub_up_with, subsets$sub_down_with)
   return(subsets)
 }
 
-rename_labels <- function(){
-  stairsData$statusId <- factor(stairsData$statusId, labels=c("Stairs Up without weight","Stairs Down without weight","Stairs Up with weight","Stairs Down with weight"))
-  return(stairsData)
+rename_labels <- function(data){
+  data$statusId <- factor(data$statusId, labels=c("Stairs Up without weight","Stairs Down without weight","Stairs Up with weight","Stairs Down with weight"))
+  return(data)
 }
 
-calculate_magnitude <- function(){
-  stairsData$magnitude = sqrt(x^2+y^2+z^2)
-  return(stairsData)
+calculate_magnitude <- function(data){
+  data$magnitude = sqrt(x^2+y^2+z^2)
+  return(data)
 }
 
-create_subsets <- function(){
-  sub_up_without <- subset(stairsData, statusId=="Stairs Up without weight")
-  sub_down_without <- subset(stairsData, statusId=="Stairs Down without weight")
-  sub_up_with <- subset(stairsData, statusId=="Stairs Up with weight")
-  sub_down_with <- subset(stairsData, statusId=="Stairs Down with weight")
+create_subsets <- function(data){
+  sub_up_without <- subset(data, statusId=="Stairs Up without weight")
+  sub_down_without <- subset(data, statusId=="Stairs Down without weight")
+  sub_up_with <- subset(data, statusId=="Stairs Up with weight")
+  sub_down_with <- subset(data, statusId=="Stairs Down with weight")
   result <- list(sub_up_without=sub_up_without, sub_down_without=sub_down_without, sub_up_with=sub_up_with, sub_down_with=sub_down_with)
   return(result)
 }
