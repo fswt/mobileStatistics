@@ -1,7 +1,10 @@
 
-test_plot <- function(subset_one, subset_two){
+test_plot <- function(subset_one, subset_two, pic_name){
   plot(subset_one$timestamp,subset_one$magnitude,type="l",col="red")
   lines(subset_two$timestamp,subset_two$magnitude,type="l",col="green")
+  path= paste("./graphs/",pic_name,".png")
+  dev.copy(png,path)
+  dev.off()
 }
 
 test_hist <- function(subset_one, subset_two){
