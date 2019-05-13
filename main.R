@@ -51,4 +51,15 @@ test_hist(fab_subsets$sub_up_with_linAcc,"fab_hist_up_with_mag")
 test_hist(fab_subsets$sub_down_without_linAcc,"fab_hist_down_without_mag")
 test_hist(fab_subsets$sub_down_with_linAcc,"fab_hist_down_with_mag")
 
+#plot ECDF 
+plot.ecdf(fab_subsets$sub_up_without_linAcc$magnitude)
+plot.ecdf(fab_subsets$sub_up_with_linAcc$magnitude)
+plot.ecdf(fab_subsets$sub_down_without_linAcc$magnitude)
+plot.ecdf(fab_subsets$sub_down_with_linAcc$magnitude)
+
+#Q-QPlot: 
+qqnorm(fab_subsets$sub_up_without_linAcc$magnitude)
+qqnorm(fab_subsets$sub_up_with_linAcc$magnitude)
+qqnorm(fab_subsets$sub_down_without_linAcc$magnitude)
+qqnorm(fab_subsets$sub_down_with_linAcc$magnitude)
 
