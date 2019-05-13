@@ -1,7 +1,9 @@
-test_plot <- function(sub_up_without, sub_up_with){
+test_plot <- function(sub_up_without, sub_up_with, pic_Name){
+ 
   plot(sub_up_without$timestamp,sub_up_without$magnitude,type="l",col="red")
   lines(sub_up_with$timestamp,sub_up_with$magnitude,type="l",col="green")
-}
+  
+  }
 
 test_hist <- function(sub_down_without, sub_down_with){
   hist(sub_down_without$mag, xlab="Acc.Magn.",prob=T)

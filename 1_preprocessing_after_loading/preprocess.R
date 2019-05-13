@@ -3,8 +3,8 @@ preprocess <- function(data){
   data <- calculate_magnitude(data) #assign to parent
   subsets <- create_subsets(data)
   subsets <- normalize_timestamps(subsets$sub_up_without, subsets$sub_down_without, subsets$sub_up_with, subsets$sub_down_with)
-  create_sensor_name_subsets(subsets$sub_up_without, subsets$sub_down_without, subsets$sub_up_with, subsets$sub_down_with)
-  return(subsets)
+  subsets_linAcc <- create_sensor_name_subsets(subsets$sub_up_without, subsets$sub_down_without, subsets$sub_up_with, subsets$sub_down_with)
+  return(subsets_linAcc)
 }
 
 rename_labels <- function(data){
@@ -49,4 +49,6 @@ create_sensor_name_subsets <- function(sub_up_without, sub_down_without, sub_up_
   sub_down_without <- subset(sub_down_without, sub_down_without$sensorName=="LGE Linear Acceleration Sensor")
   sub_up_with <- subset(sub_up_with, sub_up_with$sensorName=="LGE Linear Acceleration Sensor")
   sub_down_with <- subset(sub_down_with, sub_down_with$sensorName=="LGE Linear Acceleration Sensor")
+  result <- list(sub_up_without_linAcc=sub_up_without, sub_down_without_linAcc=sub_down_without, sub_up_with_linAcc=sub_up_with, sub_down_with_linAcc=sub_down_with)
+  return(result)
 }
