@@ -14,19 +14,41 @@ mel_data <- read.table("./z_data/stairsMelanie_prepro", header = TRUE, sep="|")
 detach(stairsData)
 attach(mel_data)
 mel_subsets <- preprocess(mel_data)
-test_plot(mel_subsets$sub_up_without_linAcc, mel_subsets$sub_up_with_linAcc, "mel_plot_linAcc")
+test_plot(mel_subsets$sub_up_without_linAcc, mel_subsets$sub_up_with_linAcc, "mel_plot_linAcc","Magnitude of the Acceleration Sensor","Time","Acc")
 fab_data <- read.table("./z_data/stairsFabian_prepro", header = TRUE, sep="|")
 detach(mel_data)
 attach(fab_data)
 fab_subsets <- preprocess(fab_data)
-test_plot(fab_subsets$sub_up_without_linAcc, fab_subsets$sub_up_with_linAcc,"fab_plot_linAcc")
+test_plot(fab_subsets$sub_up_without_linAcc, fab_subsets$sub_up_with_linAcc,"fab_plot_linAcc","Magnitude of the Acceleration Sensor","Time","Acc")
 jua_data <- read.table("./z_data/stairsJuan_prepro", header = TRUE, sep="|")
 detach(fab_data)
 attach(jua_data)
 jua_subsets <- preprocess(jua_data)
 detach(jua_data)
-test_plot(jua_subsets$sub_up_without_linAcc, jua_subsets$sub_up_with_linAcc, "jua_plot_linAcc")
-test_hist(jua_subsets$sub_up_without_linAcc, jua_subsets$sub_up_with_linAcc)
+test_plot(jua_subsets$sub_up_without_linAcc, jua_subsets$sub_up_with_linAcc, "jua_plot_linAcc","Magnitude of the Acceleration Sensor","Time","Acc")
 
+
+#calculating the mean of the different subsets:
+mean(mel_subsets$sub_up_without_linAcc$magnitude)
+mean(mel_subsets$sub_up_with_linAcc$magnitude)
+mean(mel_subsets$sub_down_without_linAcc$magnitude)
+mean(mel_subsets$sub_down_with_linAcc$magnitude)
+
+mean(fab_subsets$sub_up_without_linAcc$magnitude)
+mean(fab_subsets$sub_up_with_linAcc$magnitude)
+mean(fab_subsets$sub_down_without_linAcc$magnitude)
+mean(fab_subsets$sub_down_with_linAcc$magnitude)
+
+mean(jua_subsets$sub_up_without_linAcc$magnitude)
+mean(jua_subsets$sub_up_with_linAcc$magnitude)
+mean(jua_subsets$sub_down_without_linAcc$magnitude)
+mean(jua_subsets$sub_down_with_linAcc$magnitude)
+
+#plot histograms
+par(mfrow=c(2,2))
+test_hist(fab_subsets$sub_up_without_linAcc,"fab_hist_up_without_mag")
+test_hist(fab_subsets$sub_up_with_linAcc,"fab_hist_up_with_mag")
+test_hist(fab_subsets$sub_down_without_linAcc,"fab_hist_down_without_mag")
+test_hist(fab_subsets$sub_down_with_linAcc,"fab_hist_down_with_mag")
 
 
