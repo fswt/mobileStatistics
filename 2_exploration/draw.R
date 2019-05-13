@@ -33,8 +33,8 @@ compare_graph_lines <- function(subset_one, subset_two, subset_three, subset_fou
 
 box_plots <- function(subset_one, subset_two, subset_three, subset_four){
   par(mfcol=c(2,2))
-  boxplot(subset_two$magnitude, main="sub_down_without", ylim =c(0,40))
-  boxplot(subset_four$magnitude, main="sub_down_with", ylim =c(0,40))
-  boxplot(subset_one$magnitude, main ="sub_up_without", ylim =c(0,40))
+  boxplot(subset_two$magnitude, main="sub_up_without", ylim =c(0,40))
+  boxplot(subset_four$magnitude, main="sub_up_with", ylim =c(0,40))
+  boxplot(subset_one$magnitude, main ="sub_down_without", ylim =c(0,40))
   boxplot(subset_three$magnitude, main="sub_down_with", ylim =c(0,40))
 }
