@@ -1,7 +1,3 @@
-43|down without
-44|up with
-45|down with
-46|down with
 statusId|sensorName|x|y|z|timestamp
 42|Linear Acceleration|10.485485|6.5311103|13.861682|1557969659946
 42|Linear Acceleration|10.154153|6.765047|13.341866|1557969659955

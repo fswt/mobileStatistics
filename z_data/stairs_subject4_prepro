@@ -1,16 +1,3 @@
-31|down without
-33|up with
-34|down with
-37|up without
-38|down without
-39|up with
-40|up without
-41|down with
-42|up without
-43|down without
-44|up with
-45|down with
-46|down with
 statusId|sensorName|x|y|z|timestamp
 30|Linear Acceleration|-5.7455525|-3.6391897|8.539478|1557969240110
 30|Linear Acceleration|-5.438522|-3.6480856|9.013734|1557969240119
