@@ -24,9 +24,10 @@ subjects_subsets_means <- matrix(nrow=length(subjects_subsets),ncol=NUMBER_OF_DI
 i <- 1
 for (subject_subsets in subjects_subsets) {
   j <- 1
+  subject_subsets
   for (subset in subject_subsets) {
-    subjects_subsets_means[i,j] = mean(subset$magnitude)
-    j <- i+1
+    subjects_subsets_means[j,i] = mean(subset$magnitude)
+    j <- j+1
   }
   i <- i+1
 }
