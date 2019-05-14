@@ -4,7 +4,7 @@ source("./2_exploration/draw.R")
 source("./3_testing/test.R")
 
 NUMBER_OF_DIFFERENT_TASKS = 4
-subjects <- list("melanie", "fabian", "juan")
+subjects <- list("melanie", "fabian", "juan","subject1","subject2","subject3","subject4","subject5","subject6")
 subjects_data <- rep(list(NULL), length(subjects))
 subjects_subsets <- rep(list(NULL), length(subjects))
 
@@ -18,6 +18,10 @@ for (i in 1:length(subjects)) {
 addition = "_plot_linAcc"
 png_name = paste(subjects[[i]], addition, sep="")
 ###
+
+#creating plots
+test_plot(subjects_subsets[[5]]$sub_up_without_linAcc,subjects_subsets[[5]]$sub_up_with_linAcc,"Plot_Sub4","_plot_linAcc","time","mag")
+head(subjects_subsets[[7]])
 
 subjects_subsets_means <- matrix(nrow=length(subjects_subsets),ncol=NUMBER_OF_DIFFERENT_TASKS)
 
