@@ -3,6 +3,7 @@ source("./1_preprocessing_after_loading/preprocess.R")
 source("./2_exploration/draw.R")
 source("./3_testing/test.R")
 
+NUMBER_OF_DIFFERENT_TASKS = 4
 subjects <- list("melanie", "fabian", "juan")
 subjects_data <- rep(list(NULL), length(subjects))
 subjects_subsets <- rep(list(NULL), length(subjects))
@@ -13,42 +14,22 @@ for (i in 1:length(subjects)) {
   subjects_subsets[[i]] <- preprocess(subjects_data[[i]])
 }
 
+###EXAMPLE
+addition = "_plot_linAcc"
+png_name = paste(subjects[[i]], addition, sep="")
+###
 
-mel_data <- load_data("./z_data/stairsMelanie_prepro")
-mel_subsets <- preprocess(mel_data)
-test_plot(mel_subsets$sub_up_without_linAcc, mel_subsets$sub_up_with_linAcc, 
-  "mel_plot_linAcc", "Magnitude of the Acceleration Sensor", 
-  "Time", "Acc")
+subjects_subsets_means <- matrix(nrow=length(subjects_subsets),ncol=NUMBER_OF_DIFFERENT_TASKS)
 
-fab_data <- load_data("./z_data/stairs_fabian_prepro")
-fab_subsets <- preprocess(fab_data)
-test_plot(fab_subsets$sub_up_without_linAcc, fab_subsets$sub_up_with_linAcc, 
-  "fab_plot_linAcc", "Magnitude of the Acceleration Sensor", 
-  "Time", "Acc")
-
-jua_data <- load_data("./z_data/stairsJuan_prepro")
-jua_subsets <- preprocess(jua_data)
-test_plot(jua_subsets$sub_up_without_linAcc, jua_subsets$sub_up_with_linAcc, 
-  "jua_plot_linAcc", "Magnitude of the Acceleration Sensor", 
-  "Time", "Acc")
-
-########################### TODO calculating the mean of the different subsets:
+i <- 1
 for (subject_subsets in subjects_subsets) {
+  j <- 1
   for (subset in subject_subsets) {
-    mean(subset$magnitude)
+    subjects_subsets_means[i,j] = mean(subset$magnitude)
+    j <- i+1
   }
+  i <- i+1
 }
-############################### 
-
-mean(fab_subsets$sub_up_without_linAcc$magnitude)
-mean(fab_subsets$sub_up_with_linAcc$magnitude)
-mean(fab_subsets$sub_down_without_linAcc$magnitude)
-mean(fab_subsets$sub_down_with_linAcc$magnitude)
-
-mean(jua_subsets$sub_up_without_linAcc$magnitude)
-mean(jua_subsets$sub_up_with_linAcc$magnitude)
-mean(jua_subsets$sub_down_without_linAcc$magnitude)
-mean(jua_subsets$sub_down_with_linAcc$magnitude)
 
 # plot histograms
 par(mfrow = c(2, 2))
