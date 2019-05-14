@@ -54,13 +54,13 @@ normalize_timestamps <- function(sub_up_without, sub_down_without,
 create_sensor_name_subsets <- function(sub_up_without, sub_down_without, 
   sub_up_with, sub_down_with) {
   sub_up_without <- subset(sub_up_without, sub_up_without$sensorName == 
-    "LGE Linear Acceleration Sensor")
+    "Linear Acceleration")
   sub_down_without <- subset(sub_down_without, sub_down_without$sensorName == 
-    "LGE Linear Acceleration Sensor")
+    "Linear Acceleration")
   sub_up_with <- subset(sub_up_with, sub_up_with$sensorName == 
-    "LGE Linear Acceleration Sensor")
+    "Linear Acceleration")
   sub_down_with <- subset(sub_down_with, sub_down_with$sensorName == 
-    "LGE Linear Acceleration Sensor")
+    "Linear Acceleration")
   result <- list(sub_up_without_linAcc = sub_up_without, sub_down_without_linAcc = sub_down_without, 
     sub_up_with_linAcc = sub_up_with, sub_down_with_linAcc = sub_down_with)
   return(result)
