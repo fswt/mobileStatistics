@@ -43,7 +43,6 @@ normalize_timestamps <- function(sub_up_without, sub_down_without, sub_up_with, 
   return(result)
 }
 
-######### Under construction #################
 create_sensor_name_subsets <- function(sub_up_without, sub_down_without, sub_up_with, sub_down_with){
   sub_up_without <- subset(sub_up_without, sub_up_without$sensorName=="LGE Linear Acceleration Sensor")
   sub_down_without <- subset(sub_down_without, sub_down_without$sensorName=="LGE Linear Acceleration Sensor")
