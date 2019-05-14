@@ -4,17 +4,15 @@ source("./2_exploration/draw.R")
 source("./3_testing/test.R")
 
 subjects <- list("melanie", "fabian", "juan")
-subject_data <- list(length=length(subjects))
-subject_subsets <- list(length=length(subjects))
+subjects_data <- rep(list(NULL), length(subjects))
+subjects_subsets <- rep(list(NULL), length(subjects))
 
 for (i in 1:length(subjects)) {
-  filepath <- paste("./z_data/stairs_", subjects[i], "_prepro", sep="")
-  subject_data[i] <- load_data(filepath)
-  subject_subsets[i] <- preprocess(subject_data[i])
-  test_plot(subject_subsets[i]$sub_up_without_linAcc, subject_subsets[i]$sub_up_with_linAcc, 
-    "mel_plot_linAcc", "Magnitude of the Acceleration Sensor", 
-    "Time", "Acc")
+  filepath <- paste("./z_data/stairs_", subjects[[i]], "_prepro", sep = "")
+  subjects_data[[i]] <- load_data(filepath)
+  subjects_subsets[[i]] <- preprocess(subjects_data[[i]])
 }
+
 
 mel_data <- load_data("./z_data/stairsMelanie_prepro")
 mel_subsets <- preprocess(mel_data)
@@ -22,7 +20,7 @@ test_plot(mel_subsets$sub_up_without_linAcc, mel_subsets$sub_up_with_linAcc,
   "mel_plot_linAcc", "Magnitude of the Acceleration Sensor", 
   "Time", "Acc")
 
-fab_data <- load_data("./z_data/stairsFabian_prepro")
+fab_data <- load_data("./z_data/stairs_fabian_prepro")
 fab_subsets <- preprocess(fab_data)
 test_plot(fab_subsets$sub_up_without_linAcc, fab_subsets$sub_up_with_linAcc, 
   "fab_plot_linAcc", "Magnitude of the Acceleration Sensor", 
@@ -34,12 +32,13 @@ test_plot(jua_subsets$sub_up_without_linAcc, jua_subsets$sub_up_with_linAcc,
   "jua_plot_linAcc", "Magnitude of the Acceleration Sensor", 
   "Time", "Acc")
 
-
-# calculating the mean of the different subsets:
-mean(mel_subsets$sub_up_without_linAcc$magnitude)
-mean(mel_subsets$sub_up_with_linAcc$magnitude)
-mean(mel_subsets$sub_down_without_linAcc$magnitude)
-mean(mel_subsets$sub_down_with_linAcc$magnitude)
+########################### TODO calculating the mean of the different subsets:
+for (subject_subsets in subjects_subsets) {
+  for (subset in subject_subsets) {
+    mean(subset$magnitude)
+  }
+}
+############################### 
 
 mean(fab_subsets$sub_up_without_linAcc$magnitude)
 mean(fab_subsets$sub_up_with_linAcc$magnitude)
