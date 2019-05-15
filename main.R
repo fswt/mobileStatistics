@@ -13,20 +13,14 @@ for (i in 1:length(subjects)) {
   subjects_data[[i]] <- load_data(filepath)
   subjects_subsets[[i]] <- preprocess(subjects_data[[i]])
 }
+
 calculate_means_all_subjects_subsets <- calculate_means_all_subjects_subsets(subjects_subsets, NUMBER_OF_DIFFERENT_TASKS)
 
 #creating plots
 test_plot(subjects_subsets[[5]]$sub_up_without_linAcc,subjects_subsets[[5]]$sub_up_with_linAcc,"Plot_Sub4","_plot_linAcc","time","mag")
-head(subjects_subsets[[7]])
+plot_histograms(subjects_subsets[[1]], subjects[[1]])
 
-subjects_subsets[[5]]$sub_up_without_linAcc
 
-# plot histograms
-par(mfrow = c(2, 2))
-test_hist(fab_subsets$sub_up_without_linAcc, "fab_hist_up_without_mag")
-test_hist(fab_subsets$sub_up_with_linAcc, "fab_hist_up_with_mag")
-test_hist(fab_subsets$sub_down_without_linAcc, "fab_hist_down_without_mag")
-test_hist(fab_subsets$sub_down_with_linAcc, "fab_hist_down_with_mag")
 
 # plot ECDF
 plot.ecdf(fab_subsets$sub_up_without_linAcc$magnitude)
