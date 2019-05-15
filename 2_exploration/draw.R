@@ -71,3 +71,13 @@ plot_histograms <- function(subject_subsets, subject_name){
     i <- i+1
   }
 }
+
+plot_ecdf <- function(subject_subsets){
+  par(mfrow = c(2, 2))
+  
+  i <- 1
+  for (subset in subject_subsets){
+    plot.ecdf(subset$magnitude)
+    i <- i+1
+  }
+}

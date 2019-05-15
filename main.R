@@ -22,11 +22,15 @@ plot_histograms(subjects_subsets[[1]], subjects[[1]])
 
 
 
-# plot ECDF
-plot.ecdf(fab_subsets$sub_up_without_linAcc$magnitude)
-plot.ecdf(fab_subsets$sub_up_with_linAcc$magnitude)
-plot.ecdf(fab_subsets$sub_down_without_linAcc$magnitude)
-plot.ecdf(fab_subsets$sub_down_with_linAcc$magnitude)
+plot_ecdf <- function(subject_subsets){
+  par(mfrow = c(2, 2))
+  
+  i <- 1
+  for (subset in subject_subsets){
+    plot.ecdf(subset$magnitude)
+    i <- i+1
+  }
+}
 
 # Q-QPlot:
 qqnorm(fab_subsets$sub_up_without_linAcc$magnitude)
