@@ -11,7 +11,7 @@ test_plot <- function(subset_one, subset_two, pic_name, plot_name,
 }
 
 test_hist <- function(subset, pic_name) {
-  par(mar = rep(2, 4))
+  
   hist(subset$magnitude, xlab = "Acc.Magn.", prob = T)
   curve(dnorm(x, mean = mean(subset$magnitude), sd = sd(subset$magnitude)), 
     add = TRUE)
@@ -92,4 +92,13 @@ plot_qq <- function(subject_subsets){
     qqnorm(subset$magnitude)
     i <- i+1
   }
+}
+
+plot_hist_vs_ecdf <- function(subset_one, subset_two, name_one="tmp_plot", name_two="tmp_plot"){
+  par(mfrow = c(2, 2))
+  
+  test_hist(subset_one, name_one)
+  test_hist(subset_two, name_two)
+  plot.ecdf(subset_one$magnitude)
+  plot.ecdf(subset_two$magnitude)
 }

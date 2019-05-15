@@ -4,6 +4,7 @@ source("./2_exploration/draw.R")
 source("./3_testing/test.R")
 
 NUMBER_OF_DIFFERENT_TASKS = 4
+par(mar = rep(2, 4))
 subjects <- list("melanie", "fabian", "juan","subject1","subject2","subject3","subject4","subject5","subject6")
 subjects_data <- rep(list(NULL), length(subjects))
 subjects_subsets <- rep(list(NULL), length(subjects))
@@ -23,12 +24,7 @@ plot_ecdf(subjects_subsets[[1]])
 plot_qq(subjects_subsets[[1]])
 plot_box(subjects_subsets[[1]])
 
-# hist vs. ECDF
-par(mfrow = c(2, 2))
-test_hist(fab_subsets$sub_up_without_linAcc, "fab_hist_up_without_mag")
-plot.ecdf(fab_subsets$sub_up_without_linAcc$magnitude)
-test_hist(fab_subsets$sub_up_with_linAcc, "fab_hist_up_with_mag")
-plot.ecdf(fab_subsets$sub_up_with_linAcc$magnitude)
+plot_hist_vs_ecdf(subjects_subsets[[1]][[1]], subjects_subsets[[1]][[2]])
 
 # stripcharts under development
 stripchart(round(fab_subsets$sub_up_without_linAcc$magnitude, 
