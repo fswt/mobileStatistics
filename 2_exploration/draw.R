@@ -23,16 +23,16 @@ test_hist <- function(subset, pic_name) {
 histogram_linear_magnitude <- function(subset_one, subset_two, 
   subset_three, subset_four) {
   par(mfcol = c(2, 2))
-  hist(subset_two[subset_two$sensorName == "LGE Linear Acceleration Sensor", 
+  hist(subset_two[subset_two$sensorName == "Linear Acceleration", 
     ]$magnitude, breaks = c(0:50), ylim = c(0, 0.5), xlab = "Acc.Magn.", 
     prob = T)
-  hist(subset_four[subset_four$sensorName == "LGE Linear Acceleration Sensor", 
+  hist(subset_four[subset_four$sensorName == "Linear Acceleration", 
     ]$magnitude, breaks = c(0:50), ylim = c(0, 0.5), xlab = "Acc.Magn", 
     prob = T)
-  hist(subset_one[subset_one$sensorName == "LGE Linear Acceleration Sensor", 
+  hist(subset_one[subset_one$sensorName == "Linear Acceleration", 
     ]$magnitude, breaks = c(0:50), ylim = c(0, 0.5), xlab = "Acc.Magn.", 
     prob = T)
-  hist(subset_three[subset_three$sensorName == "LGE Linear Acceleration Sensor", 
+  hist(subset_three[subset_three$sensorName == "Linear Acceleration", 
     ]$magnitude, breaks = c(0:50), ylim = c(0, 0.5), xlab = "Acc.Magn", 
     prob = T)
 }
@@ -48,16 +48,18 @@ compare_graph_lines <- function(subset_one, subset_two, subset_three,
   lines(subset_three$timestamp, subset_three$magnitude, col = "green")
 }
 
-box_plots <- function(subset_one, subset_two, subset_three, subset_four) {
+plot_box <- function(subject_subsets) {
+  plot_name <- list("up_without_mag", "up_with_mag", "down_without_mag", "down_with_mag")
   par(mfcol = c(2, 2))
-  boxplot(subset_two$magnitude, main = "sub_up_without", ylim = c(0, 
+  
+  #ATTENTION: BEFORE THE ORDER WAS TWO, FOUR, ONE, THREE <= Did that matter?
+  #"sub_up_without" <= What did sub mean?
+  i <- 1
+  for (subset in subject_subsets){
+    boxplot(subset$magnitude, main = plot_name[[i]], ylim = c(0, 
     40))
-  boxplot(subset_four$magnitude, main = "sub_up_with", ylim = c(0, 
-    40))
-  boxplot(subset_one$magnitude, main = "sub_down_without", 
-    ylim = c(0, 40))
-  boxplot(subset_three$magnitude, main = "sub_down_with", ylim = c(0, 
-    40))
+    i <- i+1
+  }
 }
 
 plot_histograms <- function(subject_subsets, subject_name){
@@ -78,6 +80,16 @@ plot_ecdf <- function(subject_subsets){
   i <- 1
   for (subset in subject_subsets){
     plot.ecdf(subset$magnitude)
+    i <- i+1
+  }
+}
+
+plot_qq <- function(subject_subsets){
+  par(mfrow = c(2, 2))
+  
+  i <- 1
+  for (subset in subject_subsets){
+    qqnorm(subset$magnitude)
     i <- i+1
   }
 }

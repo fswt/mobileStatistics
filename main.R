@@ -19,28 +19,9 @@ calculate_means_all_subjects_subsets <- calculate_means_all_subjects_subsets(sub
 #creating plots
 test_plot(subjects_subsets[[5]]$sub_up_without_linAcc,subjects_subsets[[5]]$sub_up_with_linAcc,"Plot_Sub4","_plot_linAcc","time","mag")
 plot_histograms(subjects_subsets[[1]], subjects[[1]])
-
-
-
-plot_ecdf <- function(subject_subsets){
-  par(mfrow = c(2, 2))
-  
-  i <- 1
-  for (subset in subject_subsets){
-    plot.ecdf(subset$magnitude)
-    i <- i+1
-  }
-}
-
-# Q-QPlot:
-qqnorm(fab_subsets$sub_up_without_linAcc$magnitude)
-qqnorm(fab_subsets$sub_up_with_linAcc$magnitude)
-qqnorm(fab_subsets$sub_down_without_linAcc$magnitude)
-qqnorm(fab_subsets$sub_down_with_linAcc$magnitude)
-
-# boxplot
-box_plots(fab_subsets$sub_up_without_linAcc, fab_subsets$sub_up_with_linAcc, 
-  fab_subsets$sub_down_without_linAcc, fab_subsets$sub_down_with_linAcc)
+plot_ecdf(subjects_subsets[[1]])
+plot_qq(subjects_subsets[[1]])
+plot_box(subjects_subsets[[1]])
 
 # hist vs. ECDF
 par(mfrow = c(2, 2))
