@@ -13,28 +13,13 @@ for (i in 1:length(subjects)) {
   subjects_data[[i]] <- load_data(filepath)
   subjects_subsets[[i]] <- preprocess(subjects_data[[i]])
 }
-
-###EXAMPLE
-addition = "_plot_linAcc"
-png_name = paste(subjects[[i]], addition, sep="")
-###
+calculate_means_all_subjects_subsets <- calculate_means_all_subjects_subsets(subjects_subsets, NUMBER_OF_DIFFERENT_TASKS)
 
 #creating plots
 test_plot(subjects_subsets[[5]]$sub_up_without_linAcc,subjects_subsets[[5]]$sub_up_with_linAcc,"Plot_Sub4","_plot_linAcc","time","mag")
 head(subjects_subsets[[7]])
 
-subjects_subsets_means <- matrix(nrow=length(subjects_subsets),ncol=NUMBER_OF_DIFFERENT_TASKS)
-
-i <- 1
-for (subject_subsets in subjects_subsets) {
-  j <- 1
-  subject_subsets
-  for (subset in subject_subsets) {
-    subjects_subsets_means[j,i] = mean(subset$magnitude)
-    j <- j+1
-  }
-  i <- i+1
-}
+subjects_subsets[[5]]$sub_up_without_linAcc
 
 # plot histograms
 par(mfrow = c(2, 2))

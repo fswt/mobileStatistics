@@ -1,4 +1,5 @@
 preprocess <- function(data) {
+  attach(data)
   data <- rename_labels(data)  # Why do we have to return, so that a change happens? Variable is global, right? (also: #assign to parent)
   data <- calculate_magnitude(data)  #assign to parent
   subsets <- create_subsets(data)
@@ -6,6 +7,7 @@ preprocess <- function(data) {
     subsets$sub_up_with, subsets$sub_down_with)
   subsets_linAcc <- create_sensor_name_subsets(subsets$sub_up_without, 
     subsets$sub_down_without, subsets$sub_up_with, subsets$sub_down_with)
+  detach(data)
   return(subsets_linAcc)
 }
 
@@ -64,4 +66,20 @@ create_sensor_name_subsets <- function(sub_up_without, sub_down_without,
   result <- list(sub_up_without_linAcc = sub_up_without, sub_down_without_linAcc = sub_down_without, 
     sub_up_with_linAcc = sub_up_with, sub_down_with_linAcc = sub_down_with)
   return(result)
+}
+
+calculate_means_all_subjects_subsets <- function(subjects_subsets, NUMBER_OF_DIFFERENT_TASKS){
+  subjects_subsets_means <- matrix(nrow=length(subjects_subsets),ncol=NUMBER_OF_DIFFERENT_TASKS)
+  
+  i <- 1
+  for (subject_subsets in subjects_subsets) {
+    j <- 1
+    subject_subsets
+    for (subset in subject_subsets) {
+      subjects_subsets_means[i,j] = mean(subset$magnitude)
+      j <- j+1
+    }
+    i <- i+1
+  }
+  return(subjects_subsets_means)
 }
