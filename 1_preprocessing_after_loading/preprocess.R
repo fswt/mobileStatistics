@@ -68,8 +68,10 @@ create_sensor_name_subsets <- function(sub_up_without, sub_down_without,
   return(result)
 }
 
-calculate_means_all_subjects_subsets <- function(subjects_subsets, NUMBER_OF_DIFFERENT_TASKS){
+calculate_means_all_subjects_subsets <- function(subjects_subsets, NUMBER_OF_DIFFERENT_TASKS, SUBJECTS, TASK_NAMES){
   subjects_subsets_means <- matrix(nrow=length(subjects_subsets),ncol=NUMBER_OF_DIFFERENT_TASKS)
+  rownames(subjects_subsets_means) <- SUBJECTS
+  colnames(subjects_subsets_means) <- TASK_NAMES
   
   i <- 1
   for (subject_subsets in subjects_subsets) {
