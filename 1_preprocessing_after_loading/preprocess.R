@@ -37,16 +37,33 @@ normalize_timestamps <- function(sub_up_without, sub_down_without,
   sub_up_with, sub_down_with) {
   mt <- min(sub_up_without$timestamp)
   sub_up_without$timestamp <- (sub_up_without$timestamp - mt)
+  #cut the first 2 end the 2 Last Seconds
+  sub_up_without<-subset(sub_up_without,sub_up_without$timestamp>2000)
+  max_time<- max(sub_up_without$timestamp)
+  sub_up_without<-subset(sub_up_without, sub_up_without$timestamp<(max_time-2000))
+  
   
   mt <- min(sub_down_without$timestamp)
   sub_down_without$timestamp <- (sub_down_without$timestamp - 
     mt)
+  #cut the first 2 end the 2 Last Seconds
+  sub_down_without<-subset(sub_down_without,sub_down_without$timestamp>2000)
+  max_time<- max(sub_down_without$timestamp)
+  sub_down_without<-subset(sub_down_without, sub_down_without$timestamp<(max_time-2000))
   
   mt <- min(sub_up_with$timestamp)
   sub_up_with$timestamp <- (sub_up_with$timestamp - mt)
+  #cut the first 2 end the 2 Last Seconds
+  sub_up_with<-subset(sub_up_with,sub_up_with$timestamp>2000)
+  max_time<- max(sub_up_with$timestamp)
+  sub_up_with<-subset(sub_up_with, sub_up_with$timestamp<(max_time-2000))
   
   mt <- min(sub_down_with$timestamp)
   sub_down_with$timestamp <- (sub_down_with$timestamp - mt)
+  #cut the first 2 end the 2 Last Seconds
+  sub_down_with<-subset(sub_down_with,sub_down_with$timestamp>2000)
+  max_time<- max(sub_down_with$timestamp)
+  sub_down_with<-subset(sub_down_with, sub_down_with$timestamp<(max_time-2000))
   
   result <- list(sub_up_without = sub_up_without, sub_down_without = sub_down_without, 
     sub_up_with = sub_up_with, sub_down_with = sub_down_with)
