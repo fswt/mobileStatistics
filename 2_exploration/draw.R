@@ -59,7 +59,8 @@ plot_box <- function(subject_subsets) {
   for (subset in subject_subsets){
     boxplot(subset$magnitude, main = plot_name[[i]], ylim = c(0, 
     25))
-    i <- i+1
+    i <- i+2
+    if(i>4){i=2}
   }
   path = paste("./graphs/box_all.pdf", sep="")
   dev.copy(pdf, path)
@@ -105,6 +106,23 @@ plot_qq <- function(subject_subsets){
   dev.off()
 }
 
+plot_all_stripcharts <- function(subject_data, method, jitter=0.3){
+  path = paste("./graphs/strip_all_", method, ".pdf", sep="")
+  pdf(path, height=35, width=20)
+  par(cex.lab=3)
+  par(cex.axis=3)
+  par(mar=c(10,4,10,1)+.1)
+  if (method=="stack"){
+    stripchart(round(subject_data$magnitude, 
+                               2) ~ subject_data$statusId, xlab="Acceleration Magnitude", method = "stack")
+  }
+  if (method=="jitter"){
+    stripchart(subject_data$magnitude ~ subject_data$statusId, xlab="Acceleration Magnitude",
+                         method = "jitter", jitter=jitter)
+  }
+  dev.off()
+}
+
 plot_hist_vs_ecdf <- function(subset_one, subset_two, task_name_one="tmp_plot", task_name_two="tmp_plot", ylim, xlim){
   par(mfrow = c(2, 2))
   
@@ -131,19 +149,30 @@ plot_hist_vs_qq <- function(subset_one, subset_two, task_name_one, task_name_two
   dev.off()
 }
 
-plot_all_stripcharts <- function(subject_data, method, jitter=0.3){
-  path = paste("./graphs/strip_all_", method, ".pdf", sep="")
-  pdf(path, height=35, width=20)
-  par(cex.lab=3)
-  par(cex.axis=3)
-  par(mar=c(10,4,10,1)+.1)
-  if (method=="stack"){
-    figure <- stripchart(round(subject_data$magnitude, 
-                   2) ~ subject_data$statusId, xlab="Acceleration Magnitude", method = "stack")
+plot_stripchart_vs_hist <- function(subset_one, subset_two, task_name_one, task_name_two, xlim, ylim, method, jitter){
+  par(mfrow = c(2, 2))
+  par(mar=c(4,4,4,1)+.1)
+  subsets = list(subset_one=subset_one, subset_two=subset_two)
+  task_names = list(task_name_one=task_name_one, task_name_two=task_name_two)
+  i <- 1
+  for (subset in subsets){
+    test_hist(subset, xlim=xlim, ylim=ylim, task_names[[i]])
+    i <- i+1
   }
-  if (method=="jitter"){
-    figure <- stripchart(subject_data$magnitude ~ subject_data$statusId, xlab="Acceleration Magnitude",
-               method = "jitter", jitter=jitter)
+  i <- 1
+  for (subset in subsets){
+    if (method=="stack"){
+      stripchart(round(subset$magnitude, 
+                                 2), xlim = xlim, xlab="Acceleration Magnitude", method = "stack")
+    }
+    if (method=="jitter"){
+      stripchart(subset$magnitude, xlim = xlim, xlab="Acceleration Magnitude",
+                           method = "jitter", jitter=jitter)
+    }
+    i <- i+1
   }
+  path = paste("./graphs/hist_strip_", method, "_", task_name_one, "_", task_name_two, ".pdf", sep="")
+  dev.copy(pdf, path)
   dev.off()
 }
+
