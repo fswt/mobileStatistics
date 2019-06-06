@@ -8,7 +8,8 @@ preprocess <- function(data) {
   subsets_linAcc <- create_sensor_name_subsets(subsets$sub_up_without, 
     subsets$sub_down_without, subsets$sub_up_with, subsets$sub_down_with)
   detach(data)
-  return(subsets_linAcc)
+  result = list(data=data, subsets_linAcc=subsets_linAcc)
+  return(result)
 }
 
 rename_labels <- function(data) {
