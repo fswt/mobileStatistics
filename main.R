@@ -3,38 +3,52 @@ source("./1_preprocessing_after_loading/preprocess.R")
 source("./2_exploration/draw.R")
 source("./3_testing/test.R")
 
-NUMBER_OF_DIFFERENT_TASKS = 4
-TASK_NAMES <- list("up_without_weight", "up_with_weight", "down_without_weight", 
-  "down_with_weight")
+NUMBER_OF_DIFFERENT_TASKS = 6
+TASK_NAMES <- list("up_without_weight", "down_without_weight", "up_light_weight", "down_light_weight", "up_heavy_weight", 
+  "down_heavy_weight")
 par(mar = rep(2, 4))
-SUBJECTS <- list("melanie", "fabian", "juan", "subject1", "subject2", 
-  "subject3", "subject4", "subject5", "subject6", "subjectR1", 
-  "subjectR2", "subjectR3", "subjectR4", "subjectR5", "subjectR6", 
-  "subjectR7")
-subjects_data <- rep(list(NULL), length(SUBJECTS))
-subjects_subsets <- rep(list(NULL), length(SUBJECTS))
+SUBJECTS_f <- list("subject1", "subject2", 
+  "subject3", "subject4", "subject5", "subject6", "subject7", 
+  "subject8")
+SUBJECTS_m <- list("subject1", "subject2", 
+                 "subject3", "subject4", "subject5", "subject6", "subject7", 
+                 "subject8", 
+                 "subject9", "subject10", "subject11", "subject12", "subject13", 
+                 "subject14", "subject15")
+subjects_data_f <- rep(list(NULL), length(SUBJECTS_f))
+subjects_subsets_f <- rep(list(NULL), length(SUBJECTS_f))
+subjects_data_m <- rep(list(NULL), length(SUBJECTS_m))
+subjects_subsets_m <- rep(list(NULL), length(SUBJECTS_m))
 
-for (i in 1:length(SUBJECTS)) {
-  filepath <- paste("./z_data/stairs_", SUBJECTS[[i]], "_prepro", 
+for (i in 1:length(SUBJECTS_f)) {
+  filepath_f <- paste("./z_data/stairs_f_", SUBJECTS_f[[i]], "_prepro", 
     sep = "")
-  subjects_data[[i]] <- load_data(filepath)
-  result_preprocessing <- preprocess(subjects_data[[i]])
-  subjects_data[[i]] <- result_preprocessing$data
-  subjects_subsets[[i]] <- result_preprocessing$subsets_linAcc
+  subjects_data_f[[i]] <- load_data(filepath_f)
+  result_preprocessing_f <- preprocess(subjects_data_f[[i]], TASK_NAMES)
+  subjects_data_f[[i]] <- result_preprocessing_f$data
+  subjects_subsets_f[[i]] <- result_preprocessing_f$subsets_linAcc
 }
-means_subjects_subsets <- calculate_means_all_subjects_subsets(subjects_subsets, 
-  NUMBER_OF_DIFFERENT_TASKS, SUBJECTS, TASK_NAMES)
 
+for (i in 1:length(SUBJECTS_m)) {
+  filepath_m <- paste("./z_data/stairs_m_", SUBJECTS_m[[i]], "_prepro", 
+                      sep = "")
+  subjects_data_m[[i]] <- load_data(filepath_m)
+  result_preprocessing_m <- preprocess(subjects_data_m[[i]], TASK_NAMES)
+  subjects_data_m[[i]] <- result_preprocessing_m$data
+  subjects_subsets_m[[i]] <- result_preprocessing_m$subsets_linAcc
+}
 
-means_subjects_subsets <- calculate_means_all_subjects_subsets(subjects_subsets, NUMBER_OF_DIFFERENT_TASKS, SUBJECTS, TASK_NAMES)
-print(means_subjects_subsets)
+means_subjects_subsets_f <- calculate_means_all_subjects_subsets(subjects_subsets_f, 
+                                                                 NUMBER_OF_DIFFERENT_TASKS, SUBJECTS_f, TASK_NAMES)
+means_subjects_subsets_m <- calculate_means_all_subjects_subsets(subjects_subsets_m, 
+  NUMBER_OF_DIFFERENT_TASKS, SUBJECTS_m, TASK_NAMES)
+
 #creating plots
 test_plot(subjects_subsets[[13]]$sub_up_without_linAcc,subjects_subsets[[13]]$sub_up_with_linAcc,"Plot_Sub4","_plot_linAcc","time","mag")
 plot_histograms(subjects_subsets[[13]], SUBJECTS[[13]])
 plot_ecdf(subjects_subsets[[13]])
 plot_qq(subjects_subsets[[13]])
 plot_box(subjects_subsets[[13]])
-
 
 # plots
 test_plot(subjects_subsets[[16]]$sub_up_without_linAcc, subjects_subsets[[16]]$sub_up_with_linAcc, 

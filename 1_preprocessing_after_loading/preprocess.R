@@ -2,13 +2,11 @@ preprocess <- function(data, TASK_NAMES) {
   attach(data)
   data <- rename_labels(data, TASK_NAMES)  # Why do we have to return, so that a change happens? Variable is global, right? (also: #assign to parent)
   data <- calculate_magnitude(data)  #assign to parent
-  subsets <- create_subsets(data)
-  subsets <- normalize_timestamps(subsets$sub_up_without, subsets$sub_down_without, 
-    subsets$sub_up_with, subsets$sub_down_with)
-  subsets_linAcc <- create_sensor_name_subsets(subsets$sub_up_without, 
-    subsets$sub_down_without, subsets$sub_up_with, subsets$sub_down_with)
+  subsets <- create_subsets(data, TASK_NAMES)
+  subsets <- normalize_timestamps(subsets)
+  subsets_linAcc <- create_sensor_name_subsets(subsets)
   detach(data)
-  result = list(data=data, subsets_linAcc=subsets_linAcc)
+  result = list(data = data, subsets_linAcc = subsets_linAcc)
   return(result)
 }
 
@@ -22,70 +20,45 @@ calculate_magnitude <- function(data) {
   return(data)
 }
 
-create_subsets <- function(data) {
-  sub_up_without <- subset(data, statusId == "Stairs Up without weight")
-  sub_down_without <- subset(data, statusId == "Stairs Down without weight")
-  sub_up_with <- subset(data, statusId == "Stairs Up with weight")
-  sub_down_with <- subset(data, statusId == "Stairs Down with weight")
+create_subsets <- function(data, TASK_NAMES) {
+  sub_up_without <- subset(data, statusId == TASK_NAMES[[1]])
+  sub_down_without <- subset(data, statusId == TASK_NAMES[[2]])
+  sub_up_light <- subset(data, statusId == TASK_NAMES[[3]])
+  sub_down_light <- subset(data, statusId == TASK_NAMES[[4]])
+  sub_up_heavy <- subset(data, statusId == TASK_NAMES[[5]])
+  sub_down_heavy <- subset(data, statusId == TASK_NAMES[[6]])
   result <- list(sub_up_without = sub_up_without, sub_down_without = sub_down_without, 
-    sub_up_with = sub_up_with, sub_down_with = sub_down_with)
+    sub_up_light = sub_up_light, sub_down_light = sub_down_light, sub_up_heavy = sub_up_heavy, sub_down_heavy = sub_down_heavy)
   return(result)
 }
 
-normalize_timestamps <- function(sub_up_without, sub_down_without, 
-  sub_up_with, sub_down_with) {
-  mt <- min(sub_up_without$timestamp)
-  sub_up_without$timestamp <- (sub_up_without$timestamp - mt)
-  #cut the first 2 end the 2 Last Seconds
-  sub_up_without<-subset(sub_up_without,sub_up_without$timestamp>2000)
-  max_time<- max(sub_up_without$timestamp)
-  sub_up_without<-subset(sub_up_without, sub_up_without$timestamp<(max_time-2000))
-  
-  
-  mt <- min(sub_down_without$timestamp)
-  sub_down_without$timestamp <- (sub_down_without$timestamp - 
-    mt)
-  #cut the first 2 end the 2 Last Seconds
-  sub_down_without<-subset(sub_down_without,sub_down_without$timestamp>2000)
-  max_time <- max(sub_down_without$timestamp)
-  sub_down_without<-subset(sub_down_without, sub_down_without$timestamp<(max_time-2000))
-  
-  mt <- min(sub_up_with$timestamp)
-  sub_up_with$timestamp <- (sub_up_with$timestamp - mt)
-  #cut the first 2 end the 2 Last Seconds
-  sub_up_with<-subset(sub_up_with,sub_up_with$timestamp>2000)
-  max_time<- max(sub_up_with$timestamp)
-  sub_up_with<-subset(sub_up_with, sub_up_with$timestamp<(max_time-2000))
-  
-  mt <- min(sub_down_with$timestamp)
-  sub_down_with$timestamp <- (sub_down_with$timestamp - mt)
-  #cut the first 2 end the 2 Last Seconds
-  sub_down_with<-subset(sub_down_with,sub_down_with$timestamp>2000)
-  max_time<- max(sub_down_with$timestamp)
-  sub_down_with<-subset(sub_down_with, sub_down_with$timestamp<(max_time-2000))
-  
-  result <- list(sub_up_without = sub_up_without, sub_down_without = sub_down_without, 
-    sub_up_with = sub_up_with, sub_down_with = sub_down_with)
-  return(result)
+normalize_timestamps <- function(subsets) {
+  for(i in length(subsets)){
+    subset = subsets[[i]]
+    mt <- min(subset$timestamp)
+    subset$timestamp <- (subset$timestamp - mt)
+    # cut the first 2 end the 2 Last Seconds
+    subset <- subset(subset, subset$timestamp > 2000)
+    max_time <- max(subset$timestamp)
+    subset <- subset(subset, subset$timestamp < (max_time - 2000))
+    subsets[[i]] = subset
+  }
+  return(subsets)
 }
 
-create_sensor_name_subsets <- function(sub_up_without, sub_down_without, 
-  sub_up_with, sub_down_with) {
-  sub_up_without <- subset(sub_up_without, sub_up_without$sensorName == 
-    "LGE Linear Acceleration Sensor")
-  sub_down_without <- subset(sub_down_without, sub_down_without$sensorName == 
-    "LGE Linear Acceleration Sensor")
-  sub_up_with <- subset(sub_up_with, sub_up_with$sensorName == 
-    "LGE Linear Acceleration Sensor")
-  sub_down_with <- subset(sub_down_with, sub_down_with$sensorName == 
-    "LGE Linear Acceleration Sensor")
-  result <- list(sub_up_without_linAcc = sub_up_without, sub_down_without_linAcc = sub_down_without, 
-    sub_up_with_linAcc = sub_up_with, sub_down_with_linAcc = sub_down_with)
-  return(result)
+create_sensor_name_subsets <- function(subsets) {
+  for(i in length(subsets)){
+    subset = subsets[[i]]
+    subset <- subset(subset, subset$sensorName == "LGE Linear Acceleration Sensor")
+    subsets[[i]] = subset
+  }
+  return(subsets)
 }
 
-calculate_means_all_subjects_subsets <- function(subjects_subsets, NUMBER_OF_DIFFERENT_TASKS, SUBJECTS, TASK_NAMES){
-  subjects_subsets_means <- matrix(nrow=length(subjects_subsets),ncol=NUMBER_OF_DIFFERENT_TASKS)
+calculate_means_all_subjects_subsets <- function(subjects_subsets, 
+  NUMBER_OF_DIFFERENT_TASKS, SUBJECTS, TASK_NAMES) {
+  subjects_subsets_means <- matrix(nrow = length(subjects_subsets), 
+    ncol = NUMBER_OF_DIFFERENT_TASKS)
   rownames(subjects_subsets_means) <- SUBJECTS
   colnames(subjects_subsets_means) <- TASK_NAMES
   
@@ -94,10 +67,10 @@ calculate_means_all_subjects_subsets <- function(subjects_subsets, NUMBER_OF_DIF
     j <- 1
     subject_subsets
     for (subset in subject_subsets) {
-      subjects_subsets_means[i,j] = mean(subset$magnitude)
-      j <- j+1
+      subjects_subsets_means[i, j] = mean(subset$magnitude)
+      j <- j + 1
     }
-    i <- i+1
+    i <- i + 1
   }
   return(subjects_subsets_means)
 }
