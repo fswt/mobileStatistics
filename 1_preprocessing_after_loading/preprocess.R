@@ -1,6 +1,6 @@
-preprocess <- function(data) {
+preprocess <- function(data, TASK_NAMES) {
   attach(data)
-  data <- rename_labels(data)  # Why do we have to return, so that a change happens? Variable is global, right? (also: #assign to parent)
+  data <- rename_labels(data, TASK_NAMES)  # Why do we have to return, so that a change happens? Variable is global, right? (also: #assign to parent)
   data <- calculate_magnitude(data)  #assign to parent
   subsets <- create_subsets(data)
   subsets <- normalize_timestamps(subsets$sub_up_without, subsets$sub_down_without, 
@@ -12,10 +12,8 @@ preprocess <- function(data) {
   return(result)
 }
 
-rename_labels <- function(data) {
-  data$statusId <- factor(data$statusId, labels = c("Stairs Up without weight", 
-    "Stairs Down without weight", "Stairs Up with weight", 
-    "Stairs Down with weight"))
+rename_labels <- function(data, TASK_NAMES) {
+  data$statusId <- factor(data$statusId, labels = TASK_NAMES)
   return(data)
 }
 
@@ -49,7 +47,7 @@ normalize_timestamps <- function(sub_up_without, sub_down_without,
     mt)
   #cut the first 2 end the 2 Last Seconds
   sub_down_without<-subset(sub_down_without,sub_down_without$timestamp>2000)
-  max_time<- max(sub_down_without$timestamp)
+  max_time <- max(sub_down_without$timestamp)
   sub_down_without<-subset(sub_down_without, sub_down_without$timestamp<(max_time-2000))
   
   mt <- min(sub_up_with$timestamp)

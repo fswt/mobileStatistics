@@ -1,6 +1,5 @@
 #!/bin/bash
 
-tail -n +3 $1 > $1_prepro
 sed -i 's/value/x\|y\|z/g' $1_prepro
 sed -i 's/\[//g' $1_prepro
 sed -i 's/\]//g' $1_prepro

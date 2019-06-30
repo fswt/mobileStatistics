@@ -51,7 +51,7 @@ hist(mean_down_without, xlab = "Mean Acceleration Magnitude", prob = T, breaks=5
 curve(dnorm(x, mean = mean(mean_down_without), sd = sd(mean_down_without)), 
       add = TRUE)
 qqnorm(mean_down_without, main="Q-Q Plot for mean_down_without")
-path = paste("./graphs/qq_mean_down_without.pdf", sep="")
+path = paste("./graphs/qq_mean_down_without.png", sep="")
 dev.copy(png, path)
 dev.off()
 
@@ -59,6 +59,16 @@ hist(mean_down_with, xlab = "Mean Acceleration Magnitude", prob = T, breaks=5)
 curve(dnorm(x, mean = mean(mean_down_with), sd = sd(mean_down_with)), 
       add = TRUE)
 qqnorm(mean_down_with, main="Q-Q Plot for mean_down_with")
-path = paste("./graphs/qq_mean_down_with.pdf", sep="")
+path = paste("./graphs/qq_mean_down_with.png", sep="")
 dev.copy(png, path)
 dev.off()
+
+sd(means_subjects_subsets[10:16, 4])
+max(means_subjects_subsets[10:16, 1]-means_subjects_subsets[10:16, 2])
+
+power.t.test(delta=0.5, sd=0.7*sqrt(2), power=0.85, type="paired", alt="one.sided")
+
+
+
+
+
