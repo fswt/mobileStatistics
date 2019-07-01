@@ -301,3 +301,13 @@ positive<-(x[1,])
 negative<-(x[2,])
 prop.test(positive,negative)
 
+#F-test: 
+#going down without and heavy weight
+means_down_without<-(a[1:10,c("down_without_weight")])
+means_down_heavy<-(a[11:20,c("down_heavy_weight")])
+var.test(means_down_without, means_down_heavy)
+
+#going up without and heavy weight
+means_up_without<-(a[1:10,c("up_without_weight")])
+means_up_heavy<-(a[11:20,c("up_heavy_weight")])
+var.test(means_up_without, means_up_heavy)
