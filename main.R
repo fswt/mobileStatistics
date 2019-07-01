@@ -82,3 +82,56 @@ plot_stripchart_vs_hist(subjects_subsets[[16]][[1]], subjects_subsets[[16]][[2]]
 # tests
 t_test_down(means_subjects_subsets)
 
+#power calculation:
+a<-rbind(means_subjects_subsets_m,means_subjects_subsets_f)
+
+#going up
+print((a[,c("up_without_weight")])-(a[,c("up_heavy_weight")]))
+min_up<-min(((a[,c("up_without_weight")])-(a[,c("up_heavy_weight")])))
+min_up
+mean(abs((a[,c("up_without_weight")])-(a[,c("up_heavy_weight")])))
+
+plot((a[,c("up_without_weight")])-(a[,c("up_heavy_weight")]))
+
+#standard deviation:
+sd_up<-sd((a[,c("up_without_weight")])-(a[,c("up_heavy_weight")]))
+sd_up
+#Two sided:
+power.t.test(delta=0.2, sd=sd_up, sig.level = 0.05, power=0.8)
+#wilcoxon: 
+wilcox.test(a[,c("up_without_weight")], a[,c("up_heavy_weight")], paired=TRUE,conf.int = TRUE)
+#one sided
+power.t.test(delta=0.2, sd=sd_up, sig.level = 0.05, power=0.8, alt="one.sided")
+t.test(a[,c("up_without_weight")], a[,c("up_heavy_weight")],alternative="greater", paired=TRUE)
+
+wilcox.test(a[,c("up_without_weight")], a[,c("up_heavy_weight")], paired=TRUE,conf.int = TRUE, alternative = "greater")
+b<-a[,c("up_without_weight")]
+c<-a[,c("up_heavy_weight")]
+hist(b)
+hist(c)
+
+
+
+#going down
+print((a[,c("down_without_weight")])-(a[,c("down_heavy_weight")]))
+min_down<-min(abs((a[,c("down_without_weight")])-(a[,c("down_heavy_weight")])))
+mean(abs((a[,c("down_without_weight")])-(a[,c("down_heavy_weight")])))
+plot((a[,c("down_without_weight")])-(a[,c("down_heavy_weight")]))
+#0.0196
+#standard deviation:
+sd_down<-sd((a[,c("down_without_weight")])-(a[,c("down_heavy_weight")]))
+#0.601
+#Two sided:
+power.t.test(delta=1, sd=sd_down, sig.level = 0.05, power=0.8)
+#wilcoxon: 
+wilcox.test(a[,c("down_without_weight")], a[,c("down_heavy_weight")], paired=TRUE,conf.int = TRUE)
+#one sided
+power.t.test(delta=1, sd=sd_down, sig.level = 0.05, power=0.8, alt="one.sided")
+t.test(a[,c("down_without_weight")], a[,c("down_heavy_weight")],alternative="greater", paired=TRUE)
+
+wilcox.test(a[,c("down_without_weight")], a[,c("down_heavy_weight")], paired=TRUE,conf.int = TRUE, alternative = "greater")
+b<-a[,c("down_without_weight")]
+c<-a[,c("down_heavy_weight")]
+hist(b)
+hist(c)
+
