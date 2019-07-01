@@ -235,3 +235,69 @@ b<-a[,c("down_light_weight")]
 c<-a[,c("down_heavy_weight")]
 hist(b)
 hist(c)
+
+#test for Trend 
+#Going Down: 
+plot(a[,c("down_without_weight")])
+plot(a[,c("down_light_weight")])
+plot(a[,c("down_heavy_weight")])
+positive_down_without_weight=0
+positive_down_light_weight=0
+positive_down_heavy_weight=0
+#Threshold for  going down 5.5
+for(i in 1:nrow(a)){ 
+  if(a[i,c("down_without_weight")]>5.5){
+  positive_down_without_weight= positive_down_without_weight+1
+  }
+  if(a[i,c("down_light_weight")]>5.5){
+    positive_down_light_weight= positive_down_light_weight+1
+  }
+  if(a[i,c("down_heavy_weight")]>5.5){
+    positive_down_heavy_weight= positive_down_heavy_weight+1
+  }
+} 
+print(positive_down_light_weight)
+x <- matrix( nrow=2, ncol=3)
+x
+x[1,1]=positive_down_without_weight
+x[2,1]=22
+x[1,2]=positive_down_light_weight
+x[2,2]=22
+x[1,3]=positive_down_heavy_weight
+x[2,3]=22
+positive<-(x[1,])
+negative<-(x[2,])
+prop.test(positive,negative)
+
+#Going Up: 
+plot(a[,c("up_without_weight")])
+plot(a[,c("up_light_weight")])
+plot(a[,c("up_heavy_weight")])
+positive_up_without_weight=0
+positive_up_light_weight=0
+positive_up_heavy_weight=0
+#Threshold for  going up 5.5
+for(i in 1:nrow(a)){ 
+  if(a[i,c("up_without_weight")]>5.5){
+    positive_up_without_weight= positive_up_without_weight+1
+  }
+  if(a[i,c("up_light_weight")]>5.5){
+    positive_up_light_weight= positive_up_light_weight+1
+  }
+  if(a[i,c("up_heavy_weight")]>5.5){
+    positive_up_heavy_weight= positive_up_heavy_weight+1
+  }
+} 
+print(positive_up_light_weight)
+x <- matrix( nrow=2, ncol=3)
+x
+x[1,1]=positive_up_without_weight
+x[2,1]=22
+x[1,2]=positive_up_light_weight
+x[2,2]=22
+x[1,3]=positive_up_heavy_weight
+x[2,3]=22
+positive<-(x[1,])
+negative<-(x[2,])
+prop.test(positive,negative)
+
