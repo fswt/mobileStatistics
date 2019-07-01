@@ -86,6 +86,7 @@ t_test_down(means_subjects_subsets)
 a<-rbind(means_subjects_subsets_m,means_subjects_subsets_f)
 
 #going up
+#Without - Heavy
 print((a[,c("up_without_weight")])-(a[,c("up_heavy_weight")]))
 min_up<-min(((a[,c("up_without_weight")])-(a[,c("up_heavy_weight")])))
 min_up
@@ -97,7 +98,7 @@ plot((a[,c("up_without_weight")])-(a[,c("up_heavy_weight")]))
 sd_up<-sd((a[,c("up_without_weight")])-(a[,c("up_heavy_weight")]))
 sd_up
 #Two sided:
-power.t.test(delta=0.2, sd=sd_up, sig.level = 0.05, power=0.8)
+power.t.test(delta=0.2, sd=0.3, sig.level = 0.05, power=0.95)
 #wilcoxon: 
 wilcox.test(a[,c("up_without_weight")], a[,c("up_heavy_weight")], paired=TRUE,conf.int = TRUE)
 #one sided
@@ -110,9 +111,60 @@ c<-a[,c("up_heavy_weight")]
 hist(b)
 hist(c)
 
+#Without Light:
+print((a[,c("up_without_weight")])-(a[,c("up_light_weight")]))
+min_up<-min(((a[,c("up_without_weight")])-(a[,c("up_light_weight")])))
+min_up
+mean(abs((a[,c("up_without_weight")])-(a[,c("up_light_weight")])))
+
+plot((a[,c("up_without_weight")])-(a[,c("up_light_weight")]))
+
+#standard deviation:
+sd_up<-sd((a[,c("up_without_weight")])-(a[,c("up_light_weight")]))
+sd_up
+#Two sided:
+power.t.test(delta=0.1, sd=0.3, sig.level = 0.05, power=0.95)
+#wilcoxon: 
+wilcox.test(a[,c("up_without_weight")], a[,c("up_light_weight")], paired=TRUE,conf.int = TRUE)
+#one sided
+power.t.test(delta=0.2, sd=sd_up, sig.level = 0.05, power=0.8, alt="one.sided")
+t.test(a[,c("up_without_weight")], a[,c("up_light_weight")],alternative="greater", paired=TRUE)
+
+wilcox.test(a[,c("up_without_weight")], a[,c("up_light_weight")], paired=TRUE,conf.int = TRUE, alternative = "greater")
+b<-a[,c("up_without_weight")]
+c<-a[,c("up_light_weight")]
+hist(b)
+hist(c)
+
+#Light - Heavy
+print((a[,c("up_light_weight")])-(a[,c("up_heavy_weight")]))
+min_up<-min(((a[,c("up_light_weight")])-(a[,c("up_heavy_weight")])))
+min_up
+mean(abs((a[,c("up_light_weight")])-(a[,c("up_heavy_weight")])))
+
+plot((a[,c("up_light_weight")])-(a[,c("up_heavy_weight")]))
+
+#standard deviation:
+sd_up<-sd((a[,c("up_light_weight")])-(a[,c("up_heavy_weight")]))
+sd_up
+#Two sided:
+power.t.test(delta=0.05, sd=0.24, sig.level = 0.05, power=0.95)
+#wilcoxon: 
+wilcox.test(a[,c("up_light_weight")], a[,c("up_heavy_weight")], paired=TRUE,conf.int = TRUE)
+#one sided
+power.t.test(delta=0.2, sd=sd_up, sig.level = 0.05, power=0.8, alt="one.sided")
+t.test(a[,c("up_light_weight")], a[,c("up_heavy_weight")],alternative="greater", paired=TRUE)
+
+wilcox.test(a[,c("up_light_weight")], a[,c("up_heavy_weight")], paired=TRUE,conf.int = TRUE, alternative = "greater")
+b<-a[,c("up_light_weight")]
+c<-a[,c("up_heavy_weight")]
+hist(b)
+hist(c)
+
 
 
 #going down
+#Without heavy
 print((a[,c("down_without_weight")])-(a[,c("down_heavy_weight")]))
 min_down<-min(abs((a[,c("down_without_weight")])-(a[,c("down_heavy_weight")])))
 mean(abs((a[,c("down_without_weight")])-(a[,c("down_heavy_weight")])))
@@ -122,7 +174,7 @@ plot((a[,c("down_without_weight")])-(a[,c("down_heavy_weight")]))
 sd_down<-sd((a[,c("down_without_weight")])-(a[,c("down_heavy_weight")]))
 #0.601
 #Two sided:
-power.t.test(delta=1, sd=sd_down, sig.level = 0.05, power=0.8)
+power.t.test(delta=1, sd=0.6, sig.level = 0.05, power=0.95)
 #wilcoxon: 
 wilcox.test(a[,c("down_without_weight")], a[,c("down_heavy_weight")], paired=TRUE,conf.int = TRUE)
 #one sided
@@ -135,3 +187,51 @@ c<-a[,c("down_heavy_weight")]
 hist(b)
 hist(c)
 
+
+#Without light
+print((a[,c("down_without_weight")])-(a[,c("down_light_weight")]))
+min_down<-min(((a[,c("down_without_weight")])-(a[,c("down_light_weight")])))
+min_down
+mean(abs((a[,c("down_without_weight")])-(a[,c("down_light_weight")])))
+plot((a[,c("down_without_weight")])-(a[,c("down_light_weight")]))
+#standard deviation:
+sd_down<-sd((a[,c("down_without_weight")])-(a[,c("down_light_weight")]))
+sd_down
+#Two sided:
+power.t.test(delta=0.2, sd=0.3, sig.level = 0.05, power=0.95)
+#wilcoxon: 
+wilcox.test(a[,c("down_without_weight")], a[,c("down_light_weight")], paired=TRUE,conf.int = TRUE)
+#one sided
+power.t.test(delta=1, sd=sd_down, sig.level = 0.05, power=0.8, alt="one.sided")
+t.test(a[,c("down_without_weight")], a[,c("down_light_weight")],alternative="greater", paired=TRUE)
+
+wilcox.test(a[,c("down_without_weight")], a[,c("down_light_weight")], paired=TRUE,conf.int = TRUE, alternative = "greater")
+b<-a[,c("down_without_weight")]
+c<-a[,c("down_light_weight")]
+hist(b)
+hist(c)
+
+
+
+#light heavy
+print((a[,c("down_light_weight")])-(a[,c("down_heavy_weight")]))
+min_down<-min(((a[,c("down_light_weight")])-(a[,c("down_heavy_weight")])))
+min_down
+mean(abs((a[,c("down_light_weight")])-(a[,c("down_heavy_weight")])))
+plot((a[,c("down_light_weight")])-(a[,c("down_heavy_weight")]))
+#standard deviation:
+sd_down<-sd((a[,c("down_light_weight")])-(a[,c("down_heavy_weight")]))
+sd_down
+#Two sided:
+power.t.test(delta=0.8, sd=0.5, sig.level = 0.05, power=0.8)
+#wilcoxon: 
+wilcox.test(a[,c("down_light_weight")], a[,c("down_heavy_weight")], paired=TRUE,conf.int = TRUE)
+#one sided
+power.t.test(delta=1, sd=sd_down, sig.level = 0.05, power=0.8, alt="one.sided")
+t.test(a[,c("down_light_weight")], a[,c("down_heavy_weight")],alternative="greater", paired=TRUE)
+
+wilcox.test(a[,c("down_light_weight")], a[,c("down_heavy_weight")], paired=TRUE,conf.int = TRUE, alternative = "greater")
+b<-a[,c("down_light_weight")]
+c<-a[,c("down_heavy_weight")]
+hist(b)
+hist(c)
