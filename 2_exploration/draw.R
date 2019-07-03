@@ -1,4 +1,3 @@
-
 test_plot <- function(subset_one, subset_two, pic_name, plot_name, 
   x_lab, y_lab) {
   graphics.off()
@@ -49,18 +48,19 @@ compare_graph_lines <- function(subset_one, subset_two, subset_three,
   lines(subset_three$timestamp, subset_three$magnitude, col = "green")
 }
 
-plot_box <- function(subject_subsets) {
-  plot_name <- list("up_without_weight", "up_with_weight", "down_without_weight", "down_with_weight")
-  par(mfcol = c(2, 2))
+plot_box <- function(matrix1, matrix2, TASK_NAMES, ylim=c(0,25), col="blue", boxwex=1) {
+  plot_name <- TASK_NAMES
+  par(mfcol = c(1, 6))
   
   #ATTENTION: BEFORE THE ORDER WAS TWO, FOUR, ONE, THREE <= Did that matter?
   #"sub_up_without" <= What did sub mean?
-  i <- 1
-  for (subset in subject_subsets){
-    boxplot(subset$magnitude, main = plot_name[[i]], ylim = c(0, 
-    25))
-    i <- i+2
-    if(i>4){i=2}
+  for (j in 1:length(TASK_NAMES)){
+    d0 <- matrix(data=NA,nrow=15,ncol=2)
+    for (i in 1:8){
+      d0[i,1] <- matrix1[i,j]
+    }
+    d0[,2] <- matrix2[,j]
+    boxplot(d0, main = plot_name[[j]], ylim = ylim, col = col, boxwex=boxwex) # removed $magnitude to enable in a more general case
   }
   path = paste("./graphs/box_all.pdf", sep="")
   dev.copy(pdf, path)
