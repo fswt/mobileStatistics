@@ -10,19 +10,19 @@ test_plot <- function(subset_one, subset_two, pic_name, plot_name,
   dev.off()
 }
 
-test_hist <- function(subset, task_name, xlim, ylim) {
+test_hist <- function(subset, TASK_NAMES, xlim, ylim) {
   
-  hist(subset$magnitude, xlab = "Acceleration Magnitude", prob = T, main=task_name, xlim=xlim, ylim=ylim, breaks=20)
+  hist(subset$magnitude, xlab = "Acceleration Magnitude", prob = T, main=TASK_NAMES, xlim=xlim, ylim=ylim, breaks=20)
   curve(dnorm(x, mean = mean(subset$magnitude), sd = sd(subset$magnitude)), 
     add = TRUE)
-  path = paste("./graphs/hist_", task_name, ".pdf", sep="")
+  path = paste("./graphs/hist_", TASK_NAMES, ".pdf", sep="")
   dev.copy(pdf, path)
   dev.off()
 }
 
 histogram_linear_magnitude <- function(subset_one, subset_two, 
   subset_three, subset_four) {
-  par(mfcol = c(2, 2))
+  par(mfcol = c(2, 3))
   hist(subset_two[subset_two$sensorName == "Linear Acceleration", 
     ]$magnitude, breaks = c(0:50), ylim = c(0, 0.5), xlab = "Acceleration Magnitude", 
     prob = T, main="")
@@ -67,20 +67,19 @@ plot_box <- function(matrix1, matrix2, TASK_NAMES, ylim=c(0,25), col="blue", box
   dev.off()
 }
 
-plot_histograms <- function(subject_subsets, xlim, ylim){
-  task_name <- list("up_without_weight", "up_with_weight", "down_without_weight", "down_with_weight")
-  par(mfrow = c(2, 2))
+plot_histograms <- function(subject_subsets, xlim, ylim, TASK_NAMES){
+  par(mfrow = c(2, 3))
   
   i <- 1
   for (subset in subject_subsets){
-    test_hist(subset, task_name[[i]], xlim, ylim)
+    test_hist(subset, TASK_NAMES[[i]], xlim, ylim)
     i <- i+1
   }
 }
 
-plot_ecdf <- function(subject_subsets){
-  par(mfrow = c(2, 2))
-  plot_name <- list("up_without_weight", "up_with_weight", "down_without_weight", "down_with_weight")
+plot_ecdf <- function(subject_subsets, TASK_NAMES){
+  par(mfrow = c(2, 3))
+  plot_name <- TASK_NAMES
   
   i <- 1
   for (subset in subject_subsets){
@@ -93,8 +92,8 @@ plot_ecdf <- function(subject_subsets){
 }
 
 plot_qq <- function(subject_subsets){
-  par(mfrow = c(2, 2))
-  plot_name <- list("up_without_weight", "up_with_weight", "down_without_weight", "down_with_weight")
+  par(mfrow = c(2, 3))
+  plot_name <- TASK_NAMES
   
   i <- 1
   for (subset in subject_subsets){
@@ -124,7 +123,7 @@ plot_all_stripcharts <- function(subject_data, method, jitter=0.3){
 }
 
 plot_hist_vs_ecdf <- function(subset_one, subset_two, task_name_one="tmp_plot", task_name_two="tmp_plot", ylim, xlim){
-  par(mfrow = c(2, 2))
+  par(mfrow = c(2, 3))
   
   test_hist(subset_one, xlim=xlim, ylim=ylim, task_name_one)
   test_hist(subset_two, xlim=xlim, ylim=ylim, task_name_two)
@@ -137,7 +136,7 @@ plot_hist_vs_ecdf <- function(subset_one, subset_two, task_name_one="tmp_plot", 
 }
 
 plot_hist_vs_qq <- function(subset_one, subset_two, task_name_one, task_name_two, xlim, ylim){
-  par(mfrow = c(2, 2))
+  par(mfrow = c(2, 3))
   
   test_hist(subset_one, xlim=xlim, ylim=ylim, task_name_one)
   test_hist(subset_two, xlim=xlim, ylim=ylim, task_name_two)
@@ -149,14 +148,14 @@ plot_hist_vs_qq <- function(subset_one, subset_two, task_name_one, task_name_two
   dev.off()
 }
 
-plot_stripchart_vs_hist <- function(subset_one, subset_two, task_name_one, task_name_two, xlim, ylim, method, jitter){
-  par(mfrow = c(2, 2))
+plot_stripchart_vs_hist <- function(subset_one, subset_two, task_name_one, task_name_two, xlim, ylim, method, jitter, TASK_NAMES){
+  par(mfrow = c(2, 3))
   par(mar=c(4,4,4,1)+.1)
   subsets = list(subset_one=subset_one, subset_two=subset_two)
   task_names = list(task_name_one=task_name_one, task_name_two=task_name_two)
   i <- 1
   for (subset in subsets){
-    test_hist(subset, xlim=xlim, ylim=ylim, task_names[[i]])
+    test_hist(subset, xlim=xlim, ylim=ylim, TASK_NAMES[[i]])
     i <- i+1
   }
   i <- 1
