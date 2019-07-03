@@ -33,7 +33,7 @@ create_subsets <- function(data, TASK_NAMES) {
 }
 
 normalize_timestamps <- function(subsets) {
-  for(i in length(subsets)){
+  for(i in 1:length(subsets)){
     subset = subsets[[i]]
     mt <- min(subset$timestamp)
     subset$timestamp <- (subset$timestamp - mt)
@@ -43,6 +43,12 @@ normalize_timestamps <- function(subsets) {
     subset <- subset(subset, subset$timestamp < (max_time - 2000))
     subsets[[i]] = subset
   }
+  # cut standing around --> maybe we can it make later better than just always cutting 2 sec
+  # CUT_FRONT_SEC = 5
+  # CUT_BACK_SEC = 4.5
+  # subsets$sub_up_without <- subset(subsets$sub_up_without, subsets$sub_up_without$timestamp > (CUT_FRONT_SEC * 1000))
+  # max_time <- max(subsets$sub_up_without$timestamp)
+  # subsets$sub_up_without <- subset(subsets$sub_up_without, subsets$sub_up_without$timestamp < (max_time - (CUT_BACK_SEC * 1000)))
   return(subsets)
 }
 

@@ -3,16 +3,16 @@ test_plot <- function(subset_one, subset_two, pic_name, plot_name,
   graphics.off()
   plot(subset_one$timestamp/1000, subset_one$magnitude, type = "l", 
     col = "red", xlab = x_lab, ylab = y_lab)
-  lines(subset_two$timestamp/1000, subset_two$magnitude, type = "l", 
-    col = "green")
+  #lines(subset_two$timestamp/1000, subset_two$magnitude, type = "l", 
+    #col = "green")
   path = paste("./graphs/", pic_name, ".pdf", sep="")
   dev.copy(pdf, path)
   dev.off()
 }
 
 test_hist <- function(subset, TASK_NAMES, xlim, ylim) {
-  
-  hist(subset$magnitude, xlab = "Acceleration Magnitude", prob = T, main=TASK_NAMES, xlim=xlim, ylim=ylim, breaks=20)
+  # WHAT DOES BREAKS EXACTLY DOES?
+  hist(subset$magnitude, xlab = "Acceleration Magnitude", prob = T, main=TASK_NAMES, xlim=xlim, ylim=ylim, breaks=c(0:75))
   curve(dnorm(x, mean = mean(subset$magnitude), sd = sd(subset$magnitude)), 
     add = TRUE)
   path = paste("./graphs/hist_", TASK_NAMES, ".pdf", sep="")
@@ -56,6 +56,7 @@ plot_box <- function(matrix1, matrix2, TASK_NAMES, ylim=c(0,25), col="blue", box
   #"sub_up_without" <= What did sub mean?
   for (j in 1:length(TASK_NAMES)){
     d0 <- matrix(data=NA,nrow=15,ncol=2)
+    colnames(d0) <- c("female", "male")
     for (i in 1:8){
       d0[i,1] <- matrix1[i,j]
     }
