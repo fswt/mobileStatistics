@@ -173,6 +173,7 @@ plot((a[,c("down_without_weight")])-(a[,c("down_heavy_weight")]))
 #standard deviation:
 sd_down<-sd((a[,c("down_without_weight")])-(a[,c("down_heavy_weight")]))
 #0.601
+sd_down
 #Two sided:
 power.t.test(delta=1, sd=0.6, sig.level = 0.05, power=0.95)
 #wilcoxon: 
@@ -255,19 +256,20 @@ for(i in 1:nrow(a)){
   if(a[i,c("down_heavy_weight")]>5.5){
     positive_down_heavy_weight= positive_down_heavy_weight+1
   }
-} 
+}
+a[,c("down_heavy_weight")]
 print(positive_down_light_weight)
 x <- matrix( nrow=2, ncol=3)
 x
 x[1,1]=positive_down_without_weight
-x[2,1]=22
+x[2,1]=23
 x[1,2]=positive_down_light_weight
-x[2,2]=22
+x[2,2]=23
 x[1,3]=positive_down_heavy_weight
-x[2,3]=22
+x[2,3]=23
 positive<-(x[1,])
-negative<-(x[2,])
-prop.test(positive,negative)
+total<-(x[2,])
+prop.test(positive,total)
 
 #Going Up: 
 plot(a[,c("up_without_weight")])
@@ -292,11 +294,11 @@ print(positive_up_light_weight)
 x <- matrix( nrow=2, ncol=3)
 x
 x[1,1]=positive_up_without_weight
-x[2,1]=22
+x[2,1]=23
 x[1,2]=positive_up_light_weight
-x[2,2]=22
+x[2,2]=23
 x[1,3]=positive_up_heavy_weight
-x[2,3]=22
+x[2,3]=23
 positive<-(x[1,])
 negative<-(x[2,])
 prop.test(positive,negative)
@@ -311,3 +313,89 @@ var.test(means_down_without, means_down_heavy)
 means_up_without<-(a[1:10,c("up_without_weight")])
 means_up_heavy<-(a[11:20,c("up_heavy_weight")])
 var.test(means_up_without, means_up_heavy)
+
+
+#Binomial Test
+sum(a[,c("up_without_weight")]>6)
+binom.test(3, 23, 0.10)
+
+
+#Two proportions example
+#we set the threshold >5.5
+sum(means_subjects_subsets_f[,c("down_without_weight")]>5.5)
+sum(means_subjects_subsets_m[,c("up_without_weight")]>5.5)
+nrow(means_subjects_subsets_f)
+nrow(means_subjects_subsets_m)
+positive <-c(3,8)
+total<-c(8,15)
+prop.test(positive,total)
+
+#Going Down
+#One Way analysis of variance
+means<-c()
+means<-c(a[,c("down_without_weight")],a[,c("down_light_weight")],a[,c("down_heavy_weight")])
+length(means)
+labels<-c()
+
+  for (i in 1:23){
+    labels<-c(labels,"down_without_weight") 
+  }
+for (i in 1:23){
+  labels<-c(labels,"down_light_weight") 
+}
+for (i in 1:23){
+  labels<-c(labels,"down_heavy_weight") 
+}
+labels  
+down_table <- data.frame( "label" = labels, "mean" = means)
+down_table         
+tapply(down_table$mean,down_table$label,mean)
+anova(lm(down_table$mean~down_table$label))
+
+#Going up
+#One Way analysis of variance
+means<-c()
+means<-c(a[,c("up_without_weight")],a[,c("up_light_weight")],a[,c("up_heavy_weight")])
+length(means)
+labels<-c()
+
+for (i in 1:23){
+  labels<-c(labels,"up_without_weight") 
+}
+for (i in 1:23){
+  labels<-c(labels,"up_light_weight") 
+}
+for (i in 1:23){
+  labels<-c(labels,"up_heavy_weight") 
+}
+labels  
+up_table <- data.frame( "label" = labels, "mean" = means)
+up_table         
+tapply(up_table$mean,up_table$label,mean)
+anova(lm(up_table$mean~up_table$label))
+
+#Pairwise Comparisons
+summary(lm(up_table$mean~up_table$label))
+summary(lm(down_table$mean~down_table$label))
+
+oneway.test(up_table$mean~up_table$label)
+oneway.test(down_table$mean~down_table$label)
+
+xbar<- tapply(up_table$mean,up_table$label,mean)
+s<-tapply(up_table$mean,up_table$label,sd) 
+n<-tapply(up_table$mean,up_table$label,length)
+sem<- s/sqrt(n)
+stripchart(up_table$mean~up_table$label, method="jitter", jitter=0.05, pch=16,vert=T)
+arrows(1:3,xbar+sem,1:3,xbar-sem, angle = 90, code=3,length=.1 ,col="blue")
+lines(1:3,xbar,pch=4,type="b",cex=2,col="blue")
+graphics.off()
+
+
+xbar<- tapply(down_table$mean,down_table$label,mean)
+s<-tapply(down_table$mean,down_table$label,sd) 
+n<-tapply(down_table$mean,down_table$label,length)
+sem<- s/sqrt(n)
+stripchart(down_table$mean~down_table$label, method="jitter", jitter=0.05, pch=16,vert=T)
+arrows(1:3,xbar+sem,1:3,xbar-sem, angle = 90, code=3,length=.1 ,col="blue")
+lines(1:3,xbar,pch=4,type="b",cex=2,col="blue")
+graphics.off()
