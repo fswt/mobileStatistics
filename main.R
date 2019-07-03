@@ -43,20 +43,42 @@ means_subjects_subsets_f <- calculate_means_all_subjects_subsets(subjects_subset
 means_subjects_subsets_m <- calculate_means_all_subjects_subsets(subjects_subsets_m, 
   NUMBER_OF_DIFFERENT_TASKS, SUBJECTS_m, TASK_NAMES)
 
+cor(means_subjects_subsets_f)
+
 #creating plots
 test_plot(subjects_subsets[[13]]$sub_up_without_linAcc,subjects_subsets[[13]]$sub_up_with_linAcc,"Plot_Sub4","_plot_linAcc","time","mag")
 plot_histograms(subjects_subsets[[13]], SUBJECTS[[13]])
 plot_ecdf(subjects_subsets[[13]])
 plot_qq(subjects_subsets[[13]])
 plot_box(subjects_subsets[[13]])
+graphics.off()
+plot(means_subjects_subsets_f[1,], col = "red", ylim=c(2,9),xaxt = "n")
+axis(1, at=1:6, labels=c(TASK_NAMES[1], TASK_NAMES[2],TASK_NAMES[3],TASK_NAMES[4],TASK_NAMES[5],TASK_NAMES[6]))
+points(means_subjects_subsets_f[2,], col = "green")
+points(means_subjects_subsets_f[3,], col = "orange")
+points(means_subjects_subsets_f[4,], col = "blue")
+points(means_subjects_subsets_f[5,], col = "brown")
+points(means_subjects_subsets_f[6,], col = "black")
+points(means_subjects_subsets_f[7,], col = "grey")
+points(means_subjects_subsets_f[8,], col = "purple")
+
+graphics.off()
+
+
+
+plot_box(means_subjects_subsets_f, means_subjects_subsets_m, TASK_NAMES, ylim=c(2,7))
+
+## ATTENTION: somehow the mean of means diagram is missing -> add again
+points(means_subjects_subsets_f[2,], col = "green")
 
 # plots
-test_plot(subjects_subsets[[16]]$sub_up_without_linAcc, subjects_subsets[[16]]$sub_up_with_linAcc, 
+test_plot(subjects_subsets_f[[1]]$sub_up_without_linAcc, subjects_subsets_f[[16]]$sub_up_with_linAcc, 
   "Plot_R7", "_plot_linAcc", "Seconds", "Acceleration Magnitude")
-plot_histograms(subjects_subsets[[16]], ylim = c(0, 0.35), xlim = c(0, 
-  25))
-plot_ecdf(subjects_subsets[[16]])
-plot_qq(subjects_subsets[[16]])
+plot_histograms(subjects_subsets_m[[14]], ylim = c(0, 0.35), xlim = c(0, 
+  25), TASK_NAMES)
+
+plot_ecdf(subjects_subsets_m[[14]], TASK_NAMES)
+plot_qq(subjects_subsets_m[[14]])
 plot_box(subjects_subsets[[16]])
 plot_all_stripcharts(subjects_data[[16]], method = "stack")
 plot_all_stripcharts(subjects_data[[16]], method = "jitter", 
@@ -79,7 +101,7 @@ plot_stripchart_vs_hist(subjects_subsets[[16]][[1]], subjects_subsets[[16]][[2]]
   task_name_two = TASK_NAMES[[2]], method = "jitter", jitter = 0.5)
 
 
-# tests
+####################################### tests -> put in test script
 t_test_down(means_subjects_subsets)
 
 #power calculation:
