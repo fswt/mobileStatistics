@@ -46,6 +46,9 @@ means_subjects_subsets_f <- calculate_means_all_subjects_subsets(subjects_subset
 means_subjects_subsets_m <- calculate_means_all_subjects_subsets(subjects_subsets_m, 
   NUMBER_OF_DIFFERENT_TASKS, SUBJECTS_m, TASK_NAMES)
 
+means_subjects_subsets_all <- rbind(means_subjects_subsets_m, means_subjects_subsets_f)
+
+
 plot(means_subjects_subsets_f[1,], col = "red", ylim=c(2,9),xaxt = "n")
 axis(1, at=1:6, labels=c(TASK_NAMES[1], TASK_NAMES[2],TASK_NAMES[3],TASK_NAMES[4],TASK_NAMES[5],TASK_NAMES[6]))
 points(means_subjects_subsets_f[2,], col = "green")
@@ -59,35 +62,49 @@ points(means_subjects_subsets_f[8,], col = "purple")
 graphics.off()
 
 plot_box(means_subjects_subsets_f, means_subjects_subsets_m, TASK_NAMES, ylim=c(2,7.5))
+graphics.off()
 
-## ATTENTION: somehow the mean of means diagram is missing -> add again
-points(means_subjects_subsets_f[2,], col = "green")
+means_of_means_m = matrix(nrow=1, ncol=6)
+colnames(means_of_means_m) = TASK_NAMES
+means_of_means_f = matrix(nrow=1, ncol=6)
+colnames(means_of_means_f) = TASK_NAMES
+for (i in 1:length(TASK_NAMES)){
+  means_of_means_m[i] = mean(means_subjects_subsets_m[,i])
+  means_of_means_f[i] = mean(means_subjects_subsets_f[,i])
+}
+plot(means_of_means_m[1,], col = "red", ylim=c(2,7.5), xaxt = "n", xlab="", ylab = "mean acceleration magnitude")
+points(means_of_means_f[1,], col = "blue")
+axis(1, at=1:6, labels=TASK_NAMES)
+legend("topright", pch = c(1, 1), 
+       col = c("blue", "red"), 
+       legend = c("females", "males"))
+
+
 
 # plots
-test_plot(subjects_subsets_m[[10]]$sub_up_without, subjects_subsets_m[[14]]$sub_up_with, 
+test_plot(subjects_subsets_m[[14]]$sub_down_without, subjects_subsets_m[[14]]$sub_down_heavy, 
   "Plot_R7", "_plot_linAcc", "Seconds", "Acceleration Magnitude")
-plot_histograms(subjects_subsets_m[[12]], ylim = c(0, 0.35), xlim = c(0, 
+plot_histograms(subjects_subsets_m[[15]], ylim = c(0, 0.35), xlim = c(0, 
   25), TASK_NAMES)
 
 plot_ecdf(subjects_subsets_m[[14]], TASK_NAMES)
 plot_qq(subjects_subsets_m[[14]])
-plot_box(subjects_subsets_m[[14]])
+plot_box_individual(subjects_subsets_m[[14]], TASK_NAMES)
 plot_all_stripcharts(subjects_data_m[[14]], method = "stack")
 plot_all_stripcharts(subjects_data_m[[14]], method = "jitter", 
   jitter = 0.4)
+graphics.off()
 
-#
-test_plot(subjects_subsets[[13]]$sub_up_without_linAcc,subjects_subsets[[13]]$sub_up_with_linAcc,"Plot_Sub4","_plot_linAcc","time","mag")
-plot_histograms(subjects_subsets[[13]], SUBJECTS[[13]])
-plot_ecdf(subjects_subsets[[13]])
-plot_qq(subjects_subsets[[13]])
-plot_box(subjects_subsets[[13]])
-#
+qqnorm(means_subjects_subsets_all[24:46], main="Q-Q Plot for means down_without_weight")
+plot.ecdf(means_subjects_subsets_all[24:46], main="ECDF Plot for means down_without_weight", xlab="Acceleration Magnitude", ylab="Fn(Acceleration Magnitude)")
 
-plot_hist_vs_ecdf(subjects_subsets[[16]][[1]], subjects_subsets[[16]][[2]], 
+qqnorm(means_subjects_subsets_all[116:138], main="Q-Q Plot for means down_heavy_weight")
+plot.ecdf(means_subjects_subsets_all[116:138], main="ECDF Plot for means down_heavy_weight", xlab="Acceleration Magnitude", ylab="Fn(Acceleration Magnitude)")
+
+plot_hist_vs_ecdf(subjects_subsets_m[[14]][[1]], subjects_subsets[[14]][[2]], 
   ylim = c(0, 0.35), xlim = c(0, 25), task_name_one = TASK_NAMES[[1]], 
   task_name_two = TASK_NAMES[[2]])
-plot_hist_vs_qq(subjects_subsets[[16]][[1]], subjects_subsets[[16]][[2]], 
+plot_hist_vs_qq(subjects_subsets_m[[14]][[1]], subjects_subsets[[16]][[2]], 
   ylim = c(0, 0.35), xlim = c(0, 25), task_name_one = TASK_NAMES[[1]], 
   task_name_two = TASK_NAMES[[2]])
 plot_hist_vs_ecdf(subjects_subsets[[16]][[1]], subjects_subsets[[16]][[2]], 

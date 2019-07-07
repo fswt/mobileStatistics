@@ -3,8 +3,8 @@ test_plot <- function(subset_one, subset_two, pic_name, plot_name,
   graphics.off()
   plot(subset_one$timestamp/1000, subset_one$magnitude, type = "l", 
     col = "red", xlab = x_lab, ylab = y_lab)
-  #lines(subset_two$timestamp/1000, subset_two$magnitude, type = "l", 
-    #col = "green")
+  lines(subset_two$timestamp/1000, subset_two$magnitude, type = "l", 
+    col = "green")
   path = paste("./graphs/", pic_name, ".pdf", sep="")
   dev.copy(pdf, path)
   dev.off()
@@ -15,6 +15,16 @@ test_hist <- function(subset, TASK_NAMES, xlim, ylim) {
   hist(subset$magnitude, xlab = "Acceleration Magnitude", prob = T, main=TASK_NAMES, xlim=xlim, ylim=ylim, breaks=c(0:75))
   curve(dnorm(x, mean = mean(subset$magnitude), sd = sd(subset$magnitude)), 
     add = TRUE)
+  path = paste("./graphs/hist_", TASK_NAMES, ".pdf", sep="")
+  dev.copy(pdf, path)
+  dev.off()
+}
+
+test_hist_means <- function(subset, TASK_NAMES, xlim, ylim) {
+  # WHAT DOES BREAKS EXACTLY DOES?
+  hist(subset, xlab = "Acceleration Magnitude", prob = T, main=TASK_NAMES, xlim=xlim, ylim=ylim, breaks=c(0:75))
+  curve(dnorm(x, mean = mean(subset), sd = sd(subset)), 
+        add = TRUE)
   path = paste("./graphs/hist_", TASK_NAMES, ".pdf", sep="")
   dev.copy(pdf, path)
   dev.off()
@@ -107,7 +117,7 @@ plot_qq <- function(subject_subsets){
 }
 
 plot_all_stripcharts <- function(subject_data, method, jitter=0.3){
-  path = paste("./graphs/strip_all_", method, ".pdf", sep="")
+  path = paste("./graphs/strip_all2_", method, ".pdf", sep="")
   pdf(path, height=35, width=20)
   par(cex.lab=3)
   par(cex.axis=3)
@@ -176,3 +186,19 @@ plot_stripchart_vs_hist <- function(subset_one, subset_two, task_name_one, task_
   dev.off()
 }
 
+## TODO
+plot_box_individual <- function(subject_subsets, TASK_NAMES) {
+  plot_name <- TASK_NAMES
+  par(mfcol = c(2, 3))
+  
+  #ATTENTION: BEFORE THE ORDER WAS TWO, FOUR, ONE, THREE <= Did that matter?
+  #"sub_up_without" <= What did sub mean?
+  j <- 1
+  for (subset in subject_subsets){
+    boxplot(subset$magnitude, main = plot_name[[j]], ylim = c(0,50), ylab="acceleration magnitude")
+    j = j + 1
+  }
+  path = paste("./graphs/box_all.pdf", sep="")
+  dev.copy(pdf, path)
+  dev.off()
+}

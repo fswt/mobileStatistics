@@ -53,7 +53,7 @@ normalize_timestamps <- function(subsets) {
 }
 
 create_sensor_name_subsets <- function(subsets) {
-  for(i in length(subsets)){
+  for(i in 1:length(subsets)){
     subset = subsets[[i]]
     subset <- subset(subset, subset$sensorName == "LGE Linear Acceleration Sensor")
     subsets[[i]] = subset
