@@ -38,7 +38,7 @@ for (i in 1:length(SUBJECTS_m)) {
   subjects_subsets_m[[i]] <- result_preprocessing_m$subsets_linAcc
 }
 
-test_plot(subjects_subsets_m[[10]]$sub_up_without, subjects_subsets_m[[10]]$sub_up_with, 
+test_plot(subjects_subsets_m[[14]]$sub_up_without, subjects_subsets_m[[14]]$sub_up_heavy, 
           "Plot_R7", "_plot_linAcc", "Seconds", "Acceleration Magnitude")
 
 means_subjects_subsets_f <- calculate_means_all_subjects_subsets(subjects_subsets_f, 
@@ -72,7 +72,7 @@ for (i in 1:length(TASK_NAMES)){
   means_of_means_m[i] = mean(means_subjects_subsets_m[,i])
   means_of_means_f[i] = mean(means_subjects_subsets_f[,i])
 }
-plot(means_of_means_m[1,], col = "red", ylim=c(2,7.5), xaxt = "n", xlab="", ylab = "mean acceleration magnitude")
+plot(means_of_means_m[1,], col = "red", ylim=c(2,6), xaxt = "n", xlab="", ylab = "mean acceleration magnitude")
 points(means_of_means_f[1,], col = "blue")
 axis(1, at=1:6, labels=TASK_NAMES)
 legend("topright", pch = c(1, 1), 
@@ -84,14 +84,14 @@ legend("topright", pch = c(1, 1),
 # plots
 test_plot(subjects_subsets_m[[14]]$sub_down_without, subjects_subsets_m[[14]]$sub_down_heavy, 
   "Plot_R7", "_plot_linAcc", "Seconds", "Acceleration Magnitude")
-plot_histograms(subjects_subsets_m[[15]], ylim = c(0, 0.35), xlim = c(0, 
+plot_histograms(subjects_subsets_m[[14]], ylim = c(0, 0.35), xlim = c(0, 
   25), TASK_NAMES)
 
 plot_ecdf(subjects_subsets_m[[14]], TASK_NAMES)
 plot_qq(subjects_subsets_m[[14]])
 plot_box_individual(subjects_subsets_m[[14]], TASK_NAMES)
-plot_all_stripcharts(subjects_data_m[[14]], method = "stack")
-plot_all_stripcharts(subjects_data_m[[14]], method = "jitter", 
+plot_all_stripcharts(subset(subjects_data_m[[14]], subjects_data_m[[14]]$sensorName == "LGE Linear Acceleration Sensor"), method = "stack")
+plot_all_stripcharts(subset(subjects_data_m[[14]], subjects_data_m[[14]]$sensorName == "LGE Linear Acceleration Sensor"), method = "jitter", 
   jitter = 0.4)
 graphics.off()
 
@@ -110,12 +110,12 @@ plot_hist_vs_qq(subjects_subsets_m[[14]][[1]], subjects_subsets[[16]][[2]],
 plot_hist_vs_ecdf(subjects_subsets[[16]][[1]], subjects_subsets[[16]][[2]], 
   ylim = c(0, 0.35), xlim = c(0, 25), task_name_one = TASK_NAMES[[1]], 
   task_name_two = TASK_NAMES[[2]])
-plot_stripchart_vs_hist(subjects_subsets[[16]][[1]], subjects_subsets[[16]][[2]], 
+plot_stripchart_vs_hist(subjects_subsets_m[[14]][[1]], subjects_subsets_m[[14]][[2]], 
   ylim = c(0, 0.35), xlim = c(0, 25), task_name_one = TASK_NAMES[[1]], 
-  task_name_two = TASK_NAMES[[2]], method = "stack")
-plot_stripchart_vs_hist(subjects_subsets[[16]][[1]], subjects_subsets[[16]][[2]], 
-  ylim = c(0, 0.35), xlim = c(0, 25), task_name_one = TASK_NAMES[[1]], 
-  task_name_two = TASK_NAMES[[2]], method = "jitter", jitter = 0.5)
+  task_name_two = TASK_NAMES[[2]], method = "stack", TASK_NAMES=TASK_NAMES)
+plot_stripchart_vs_hist(subjects_subsets_m[[14]][[2]], subjects_subsets_m[[14]][[4]], 
+  ylim = c(0, 0.35), xlim = c(0, 25), task_name_one = TASK_NAMES[[2]], 
+  task_name_two = TASK_NAMES[[4]], method = "jitter", jitter = 0.5, TASK_NAMES=TASK_NAMES)
 
 
 ####################################### tests -> put in test script

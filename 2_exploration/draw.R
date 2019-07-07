@@ -71,7 +71,7 @@ plot_box <- function(matrix1, matrix2, TASK_NAMES, ylim=c(0,25), col="blue", box
       d0[i,1] <- matrix1[i,j]
     }
     d0[,2] <- matrix2[,j]
-    boxplot(d0, main = plot_name[[j]], ylim = ylim, col = col, boxwex=boxwex) # removed $magnitude to enable in a more general case
+    boxplot(d0, main = plot_name[[j]], ylim = ylim, col = col, boxwex=boxwex, ylab="Mean Acceleration Magnitude") # removed $magnitude to enable in a more general case
   }
   path = paste("./graphs/box_all.pdf", sep="")
   dev.copy(pdf, path)
@@ -84,7 +84,8 @@ plot_histograms <- function(subject_subsets, xlim, ylim, TASK_NAMES){
   i <- 1
   for (subset in subject_subsets){
     test_hist(subset, TASK_NAMES[[i]], xlim, ylim)
-    i <- i+1
+    i <- i+2
+    if(i>6){i=2}
   }
 }
 
@@ -117,7 +118,7 @@ plot_qq <- function(subject_subsets){
 }
 
 plot_all_stripcharts <- function(subject_data, method, jitter=0.3){
-  path = paste("./graphs/strip_all2_", method, ".pdf", sep="")
+  path = paste("./graphs/strip_all_", method, ".pdf", sep="")
   pdf(path, height=35, width=20)
   par(cex.lab=3)
   par(cex.axis=3)
@@ -160,13 +161,13 @@ plot_hist_vs_qq <- function(subset_one, subset_two, task_name_one, task_name_two
 }
 
 plot_stripchart_vs_hist <- function(subset_one, subset_two, task_name_one, task_name_two, xlim, ylim, method, jitter, TASK_NAMES){
-  par(mfrow = c(2, 3))
+  par(mfrow = c(2, 2))
   par(mar=c(4,4,4,1)+.1)
   subsets = list(subset_one=subset_one, subset_two=subset_two)
   task_names = list(task_name_one=task_name_one, task_name_two=task_name_two)
   i <- 1
   for (subset in subsets){
-    test_hist(subset, xlim=xlim, ylim=ylim, TASK_NAMES[[i]])
+    test_hist(subset, xlim=xlim, ylim=ylim, task_names[[i]])
     i <- i+1
   }
   i <- 1
@@ -195,7 +196,7 @@ plot_box_individual <- function(subject_subsets, TASK_NAMES) {
   #"sub_up_without" <= What did sub mean?
   j <- 1
   for (subset in subject_subsets){
-    boxplot(subset$magnitude, main = plot_name[[j]], ylim = c(0,50), ylab="acceleration magnitude")
+    boxplot(subset$magnitude, main = plot_name[[j]], ylim = c(0,45), ylab="acceleration magnitude")
     j = j + 1
   }
   path = paste("./graphs/box_all.pdf", sep="")
